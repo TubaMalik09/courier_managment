@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website Info</title>
-
     <style>
         body {
             background-color: #f8f9fa;
@@ -30,6 +29,7 @@
         .table {
             margin-bottom: 0;
             font-size: 0.95rem;
+            width: 100%;
         }
 
         .table thead {
@@ -57,6 +57,14 @@
             padding: 1rem;
             color: #6c757d;
         }
+
+        /* Only responsive addition */
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
     </style>
 </head>
 <body>
@@ -65,7 +73,7 @@
 
 <div class="container my-4">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary">
+        <div class="card-header">
             Website Information
         </div>
         <div class="table-responsive">
@@ -76,6 +84,7 @@
                         <th>Description</th>
                         <th>Email</th>
                         <th>Phone number</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,15 +94,16 @@
                         while ($row = mysqli_fetch_array($run)) {
                             ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row[1]); ?></td>
-                                <td><?php echo htmlspecialchars($row[2]); ?></td>
-                                <td><?php echo htmlspecialchars($row[3]); ?></td>
-                                <td><?php echo htmlspecialchars($row[4]); ?></td>
+                                <td><?php echo $row[1]; ?></td>
+                                <td><?php echo $row[2]; ?></td>
+                                <td><?php echo $row[3]; ?></td>
+                                <td><?php echo $row[4]; ?></td>
+                                <td><button class="btn btn-warning">Edit</button></td>
                             </tr>
                             <?php
                         }
                     } else {
-                        echo '<tr><td colspan="4" class="no-data">No data found</td></tr>';
+                        echo '<tr><td colspan="6" class="no-data">No data found</td></tr>';
                     }
                     ?>
                 </tbody>
