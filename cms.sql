@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2025 at 01:20 PM
+-- Generation Time: Aug 18, 2025 at 01:55 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `cms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `Password` varchar(100) NOT NULL,
+  `Contect no` varchar(100) NOT NULL,
+  `Role` varchar(100) NOT NULL,
+  `Time record` varchar(100) NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `Email`, `Password`, `Contect no`, `Role`, `Time record`) VALUES
+(1, 'aiman', 'admin123@gmail.com', 'admin12345', '0312345675', 'admin', 'current_timestamp()');
 
 -- --------------------------------------------------------
 
@@ -48,6 +71,13 @@ INSERT INTO `websiteinfo` (`id`, `name`, `description`, `email`, `phnum`, `recor
 --
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Email` (`Email`);
+
+--
 -- Indexes for table `websiteinfo`
 --
 ALTER TABLE `websiteinfo`
@@ -57,6 +87,12 @@ ALTER TABLE `websiteinfo`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `websiteinfo`
