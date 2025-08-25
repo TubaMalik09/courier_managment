@@ -93,12 +93,24 @@
         $run = mysqli_query($conn, "INSERT INTO `about`(`title`, `description`) VALUES ('$title','$desc')");
     
     if($run){
-        ?>
-    <script>
-        alert('Successfully added about us!');
-        window.location.href = 'CreateAbout.php';
-    </script>
-    <?php } }
+        echo '<!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
+            <script>
+                Swal.fire({
+                    title: "Success!",
+                    text: "About us created successfully!",
+                    icon: "success"
+                }).then(function() {
+                    window.location.href = "ShowAbout.php";
+                });
+            </script>
+        </body>
+        </html>';   
+     } }
     ?>
     <?php
     include_once("footer.php")
