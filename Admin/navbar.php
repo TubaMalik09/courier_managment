@@ -22,6 +22,7 @@ include_once("../connection.php");
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.3/css/dataTables.dataTables.css" />
 </head>
 
 <body>
@@ -138,7 +139,6 @@ include_once("../connection.php");
         <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                
-                <a class="collapse-item" href="CreateAbout.php">Add</a>
                 <a class="collapse-item" href="ShowAbout.php">Show</a>
             </div>
         </div>
@@ -282,7 +282,7 @@ include_once("../connection.php");
                             Activity Log
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                        <a class="dropdown-item" href="logout.php" >
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
                         </a>

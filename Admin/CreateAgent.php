@@ -88,19 +88,22 @@
     ?>
  <form method="POST" id="form">
         <label for="name">Agent Name</label>
-        <input type="text" placeholder="Branch Name" name="name" id="name" class="form-control">
+        <input type="text" placeholder="Agent Name" name="name" id="name" class="form-control">
 
         <label for="email">Agent Email</label>
-        <input type="text" placeholder="Branch City" name="email" id="email" class="form-control">
+        <input type="text" placeholder="Agent Email" name="email" id="email" class="form-control">
 <br>
         <label for="password">Agent Password</label>
-        <input type="text" placeholder="Branch Phone number" name="password" id="password" class="form-control">
+        <input type="text" placeholder="Agent Password" name="password" id="password" class="form-control">
 <br>
-        <label for="gender">Agent Gender</label>
-        <input type="email" placeholder="Branch Email" name="gender" id="gender" class="form-control">
-<br>
+<label for="gender">Agent Gender</label>
+        <div class="gender-options">
+            <input type="radio" name="gender" value="Male" id="male"> Male 
+            <input type="radio" name="gender" value="Female" id="female"> Female 
+            <input type="radio" name="gender" value="Other" id="other"> Other 
+<br><br>
         <label for="phnum">Agent Phone Number</label>
-        <input type="text" placeholder="Branch Address" name="phnum" id="phnum" class="form-control">
+        <input type="text" placeholder="Agent Phone Number" name="phnum" id="phnum" class="form-control">
 <br>
         <label for="branch_id">Branch Id</label>
             <select name="branch_id" id="branch_id" class="form-control">
@@ -161,8 +164,6 @@
     ?>
 </body>
 </html>
-<?php
-    include_once("footer.php")
-    ?>
+
 </body>
 </html>

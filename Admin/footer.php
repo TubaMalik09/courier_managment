@@ -38,3 +38,10 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="https://cdn.datatables.net/2.3.3/js/dataTables.js"></script>
+
+    <script>
+        $(document).ready( function () {
+    $('#a').DataTable();
+} );
+    </script>
