@@ -20,6 +20,7 @@
     </a>
 
    
+    <script src="path/to/lang.js"></script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
