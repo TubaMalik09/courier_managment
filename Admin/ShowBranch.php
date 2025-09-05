@@ -232,8 +232,8 @@
             <br>
             <select name="f" id="" class="form-control" >Status
             <option value="0" disabled>Select an option</option>
-            <option value="1">Open</option>
-            <option value="2">Close</option>
+            <option value="Open">Open</option>
+            <option value="Close">Close</option>
             </select>
             <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
