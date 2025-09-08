@@ -1,5 +1,12 @@
 <?php
 include_once("../connection.php"); // apna db connection file
+// Generate a unique tracking number (e.g., TRK-20250908-XYZ123)
+function generateTrackingNumber() {
+    $prefix = "TRK";
+    $datePart = date("Ymd");
+    $randomPart = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 6));
+    return "$prefix-$datePart-$randomPart";
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sender_name   = $_POST['sender_name'];
@@ -14,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $service_title = $service[1];
     $service_price = $service[3];
+    $tracking_number = generateTrackingNumber();
 
     // Agar service "By Weight" hai to price calculate karo
     if (strtolower($service_title) === "by weight") {
@@ -67,14 +75,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      $sql = "INSERT INTO addcourier (
         `sender-name`, `sender-email`, `sender-phone`, `sender-address`,
         `receiver-name`, `receiver-email`, `receiver-phone`, `receiver-address`,
-        `parcel-info`, `service-id`, `weight`, `price`, `tax`, `total`,`branch`
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+        `parcel-info`, `service-id`, `weight`, `price`, `tax`, `total`,`branch`,`trackingno`
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
     
     $stmt = $conn->prepare($sql);
     
     if ($stmt) {
         $stmt->bind_param(
-            "sssssssssididdd",
+            "sssssssssididdds",
             $sender_name,     // s
             $sender_email,    // s
             $sender_phone,    // s
@@ -89,7 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $service_price,   // i
             $tax_amount,      // d
             $grand_total  ,
-            $branch    // d
+            $branch ,
+            $tracking_number   // d
         );
     
         if ($stmt->execute()) {
@@ -147,6 +156,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Courier Service</h1>
             <p>Invoice Receipt</p>
         </div>
+        <div class="info">
+    <div><p><b>Tracking No:</b> <?php echo $tracking_number; ?></p></div>
+</div>
 
         <div class="info">
             <div>
