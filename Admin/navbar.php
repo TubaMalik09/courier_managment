@@ -143,6 +143,17 @@ include_once("../connection.php");
             </div>
         </div>
     </li>
+    <li class="nav-item">
+    <a class="nav-link collapsed" href="#collapseTwoContact" data-toggle="collapse" data-target="#collapseTwoContact" aria-expanded="true" aria-controls="collapseTwoContact">
+        <i class="fa-solid fa-address-card"></i>
+        <span>Contact us</span>
+    </a>
+    <div id="collapseTwoContact" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="ShowContact.php">Show</a>
+        </div>
+    </div>
+</li>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo5"
