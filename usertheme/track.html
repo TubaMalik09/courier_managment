@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Package - CourierX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --orange: #FF6B00;
+            --light-orange: #FFA94D;
+            --white: #FFFFFF;
+            --light-grey: #F5F5F5;
+            --dark-grey: #333333;
+            --medium-grey: #666666;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --error: #F44336;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInFromLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 0, 0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% { animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000); }
+            0% { opacity: 0; transform: scale3d(0.3, 0.3, 0.3); }
+            20% { transform: scale3d(1.1, 1.1, 1.1); }
+            40% { transform: scale3d(0.9, 0.9, 0.9); }
+            60% { opacity: 1; transform: scale3d(1.03, 1.03, 1.03); }
+            80% { transform: scale3d(0.97, 0.97, 0.97); }
+            100% { opacity: 1; transform: scale3d(1, 1, 1); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide-in-left {
+            animation: slideInFromLeft 0.3s ease;
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.6s;
+        }
+
+        /* Track Page Styles */
+        .track-hero {
+            min-height: 50vh;
+            background: linear-gradient(135deg, var(--orange), var(--light-orange));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .track-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,224C672,235,768,181,864,160C960,139,1056,149,1152,138.7C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .track-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-box {
+            display: flex;
+            background: var(--white);
+            border-radius: 3rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .search-box:focus-within {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-button {
+            padding: 1rem 1.5rem;
+            background: var(--orange);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-button:hover {
+            background: var(--light-orange);
+        }
+
+        .recent-searches {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .recent-search-tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .recent-search-tag:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Section Styles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--dark-grey);
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--orange);
+            border-radius: 2px;
+        }
+
+        /* Tracking Content Sections */
+        .tracking-section {
+            padding: 4rem 2rem;
+            background: var(--white);
+        }
+
+        .tracking-section.alt {
+            background: var(--light-grey);
+        }
+
+        .tracking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tracking-card {
+            padding: 1.5rem;
+            border-radius: 1rem;
+            background: var(--white);
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: var(--transition);
+            border-left: 4px solid var(--orange);
+            position: relative;
+        }
+
+        .tracking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 0, 0.2);
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-badge.booked {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+        }
+
+        .status-badge.transit {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .status-badge.out {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .status-badge.delivered {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .progress-bar-container {
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .progress-bar-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-bar-track {
+            width: 100%;
+            background: #e5e5e5;
+            border-radius: 1rem;
+            height: 8px;
+            position: relative;
+            overflow: visible;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--orange);
+            border-radius: 1rem;
+            transition: width 0.5s ease;
+            width: 0;
+        }
+
+        .truck-icon {
+            position: absolute;
+            top: -15px;
+            left: 0;
+            font-size: 1.5rem;
+            transform: translateX(-50%);
+            transition: left 1.5s ease-in-out;
+            animation: bounce 0.8s infinite alternate, pulseGlow 2s infinite;
+            z-index: 2;
+        }
+
+        .tracking-details {
+            font-size: 0.9rem;
+            color: var(--medium-grey);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tracking-status {
+            color: var(--orange);
+            font-weight: 500;
+        }
+
+        .view-details-btn {
+            width: 100%;
+            background: rgba(255, 107, 0, 0.1);
+            color: var(--orange);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .view-details-btn:hover {
+            background: rgba(255, 107, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 0, 0.2);
+        }
+
+        /* Vertical Timeline for Mobile */
+        .vertical-timeline {
+            display: none;
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .vertical-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--orange);
+        }
+
+        .timeline-step {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: -1.65rem;
+            top: 0.3rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--orange);
+            z-index: 1;
+        }
+
+        .timeline-step.active::before {
+            background: var(--orange);
+            box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.3);
+        }
+
+        .timeline-step.completed::before {
+            background: var(--success);
+        }
+
+        .timeline-step-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-step-desc {
+            font-size: 0.85rem;
+            color: var(--medium-grey);
+        }
+
+        /* Alternative tracking methods */
+        .alt-tracking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .alt-track-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .alt-track-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--dark-grey);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alt-track-desc {
+            color: var(--medium-grey);
+            margin-bottom: 1rem;
+        }
+
+        .alt-track-form {
+            display: flex;
+        }
+
+        .alt-track-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem 0 0 0.5rem;
+            outline: none;
+        }
+
+        .alt-track-input:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.2);
+        }
+
+        .alt-track-btn {
+            background: var(--orange);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .alt-track-btn:hover {
+            background: var(--light-orange);
+        }
+
+        /* Accordion for mobile alternative tracking */
+        .accordion {
+            display: none;
+            background: var(--white);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .accordion-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 300px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        /* Bulk tracking */
+        .bulk-tracking {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .bulk-card {
+            background: var(--light-grey);
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+
+        .bulk-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--dark-grey);
+        }
+
+        .bulk-desc {
+            color: var(--medium-grey);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .bulk-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bulk-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            resize: none;
+            outline: none;
+            min-height: 100px;
+            transition: height 0.2s;
+        }
+
+        .bulk-textarea:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.2);
+        }
+
+        .bulk-btn {
+            background: var(--orange);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .bulk-btn:hover {
+            background: var(--light-orange);
+        }
+
+        .bulk-results {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--error);
+        }
+
+        .toast.warning {
+            background: var(--warning);
+        }
+
+        .toast i {
+            animation: spin 0.5s ease, bounceIn 0.6s;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--orange);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--light-orange);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .alt-tracking-grid {
+                display: none;
+            }
+            
+            .accordion {
+                display: block;
+            }
+            
+            .progress-bar-container {
+                display: none;
+            }
+            
+            .vertical-timeline {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .track-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .tracking-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 1rem;
+            }
+            
+            .search-input {
+                border-radius: 1rem 1rem 0 0;
+            }
+            
+            .search-button {
+                border-radius: 0 0 1rem 1rem;
+            }
+            
+            .alt-track-form {
+                flex-direction: column;
+            }
+            
+            .alt-track-input {
+                border-radius: 0.5rem 0.5rem 0 0;
+            }
+            
+            .alt-track-btn {
+                border-radius: 0 0 0.5rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Toast -->
+    <div class="toast" id="notificationToast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Operation completed successfully!</span>
+    </div>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Track Hero Section -->
+    <section class="track-hero">
+        <h2 class="track-title">Track Your Consignment</h2>
+        <p style="font-size: 1.125rem; margin-bottom: 2rem; position: relative; z-index: 1;">Enter your consignment number to check current status</p>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" id="trackingInput" placeholder="Enter Consignment Number (e.g., CX123456789)">
+                <button class="search-button" onclick="trackPackage()">
+                    <i class="fas fa-truck"></i> Track Now
+                </button>
+            </div>
+            <div class="recent-searches" id="recentSearches">
+                <!-- Recent searches will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tracking Guide Section -->
+    <section class="tracking-section">
+        <h2 class="section-title">Tracking Guide</h2>
+        <div class="tracking-grid">
+            <div class="alt-track-card fade-in">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--orange);">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--dark-grey);">Multiple Tracking Options</h3>
+                    <p style="color: var(--medium-grey);">Track by consignment number, mobile number, or reference number for your convenience.</p>
+                </div>
+            </div>
+            <div class="alt-track-card fade-in">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--orange);">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--dark-grey);">Email Notifications</h3>
+                    <p style="color: var(--medium-grey);">Get instant email alerts for every status update from booking to delivery.</p>
+                </div>
+            </div>
+            <div class="alt-track-card fade-in">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--orange);">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--dark-grey);">SMS Updates</h3>
+                    <p style="color: var(--medium-grey);">Receive real-time SMS notifications for pickup, transit, and delivery updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alternative Tracking Methods -->
+    <section class="tracking-section alt">
+        <h2 class="section-title">Alternative Tracking Methods</h2>
+        
+        <!-- Desktop Layout -->
+        <div class="alt-tracking-grid">
+            <div class="alt-track-card slide-in-left">
+                <h3 class="alt-track-title">
+                    <i class="fas fa-phone"></i>
+                    Track by Mobile Number
+                </h3>
+                <p class="alt-track-desc">Enter the mobile number used during booking to see all your shipments.</p>
+                <div class="alt-track-form">
+                    <input type="tel" class="alt-track-input" id="mobileInput" placeholder="Enter mobile number">
+                    <button class="alt-track-btn" onclick="trackByMobile()">Track</button>
+                </div>
+            </div>
+
+            <div class="alt-track-card slide-in-left" style="animation-delay: 0.2s;">
+                <h3 class="alt-track-title">
+                    <i class="fas fa-tag"></i>
+                    Track by Reference
+                </h3>
+                <p class="alt-track-desc">Use your custom reference number or order ID to track packages.</p>
+                <div class="alt-track-form">
+                    <input type="text" class="alt-track-input" id="referenceInput" placeholder="Enter reference number">
+                    <button class="alt-track-btn" onclick="trackByReference()">Track</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Accordion Layout -->
+        <div class="accordion" id="mobileAccordion">
+            <div class="accordion-header" onclick="toggleAccordion('mobileAccordion')">
+                <span><i class="fas fa-phone"></i> Track by Mobile Number</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="alt-track-desc">Enter the mobile number used during booking to see all your shipments.</p>
+                <div class="alt-track-form">
+                    <input type="tel" class="alt-track-input" placeholder="Enter mobile number">
+                    <button class="alt-track-btn">Track</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion" id="referenceAccordion">
+            <div class="accordion-header" onclick="toggleAccordion('referenceAccordion')">
+                <span><i class="fas fa-tag"></i> Track by Reference</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content">
+                <p class="alt-track-desc">Use your custom reference number or order ID to track packages.</p>
+                <div class="alt-track-form">
+                    <input type="text" class="alt-track-input" placeholder="Enter reference number">
+                    <button class="alt-track-btn">Track</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Tracking Results -->
+    <section class="tracking-section">
+        <h2 class="section-title">Recent Tracking Results</h2>
+        <div class="tracking-grid" style="margin-bottom: 3rem;">
+            <div class="tracking-card fade-in">
+                <span class="status-badge transit"><i class="fas fa-truck-moving"></i> In Transit</span>
+                <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Consignment: CX123456789</h3>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-header">
+                        <span>Progress</span>
+                        <span>60%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill" data-progress="60"></div>
+                        <div class="truck-icon" data-progress="60">🚚</div>
+                    </div>
+                </div>
+                <div class="vertical-timeline">
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-box"></i> Booked</div>
+                        <div class="timeline-step-desc">June 10, 2023 - 10:30 AM</div>
+                    </div>
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-warehouse"></i> Processing</div>
+                        <div class="timeline-step-desc">June 10, 2023 - 2:15 PM</div>
+                    </div>
+                    <div class="timeline-step active">
+                        <div class="timeline-step-title"><i class="fas fa-truck-moving"></i> In Transit</div>
+                        <div class="timeline-step-desc">Distribution Center - Los Angeles</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-step-title"><i class="fas fa-truck"></i> Out for Delivery</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-step-title"><i class="fas fa-check-circle"></i> Delivered</div>
+                    </div>
+                </div>
+                <p class="tracking-details"><i class="fas fa-map-marker-alt"></i> Location: Distribution Center - Los Angeles</p>
+                <p class="tracking-details"><i class="fas fa-clock"></i> Estimated Delivery: Tomorrow</p>
+                <button class="view-details-btn" onclick="viewStatusDetails('CX123456789')">
+                    <i class="fas fa-info-circle"></i> View Details
+                </button>
+            </div>
+
+            <div class="tracking-card fade-in">
+                <span class="status-badge out"><i class="fas fa-truck"></i> Out for Delivery</span>
+                <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Consignment: CX987654321</h3>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-header">
+                        <span>Progress</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill" data-progress="90"></div>
+                        <div class="truck-icon" data-progress="90">🚚</div>
+                    </div>
+                </div>
+                <div class="vertical-timeline">
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-box"></i> Booked</div>
+                        <div class="timeline-step-desc">June 12, 2023 - 09:15 AM</div>
+                    </div>
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-warehouse"></i> Processing</div>
+                        <div class="timeline-step-desc">June 12, 2023 - 1:40 PM</div>
+                    </div>
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-truck-moving"></i> In Transit</div>
+                        <div class="timeline-step-desc">June 13, 2023 - 10:20 AM</div>
+                    </div>
+                    <div class="timeline-step active">
+                        <div class="timeline-step-title"><i class="fas fa-truck"></i> Out for Delivery</div>
+                        <div class="timeline-step-desc">Local Delivery Hub</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-step-title"><i class="fas fa-check-circle"></i> Delivered</div>
+                    </div>
+                </div>
+                <p class="tracking-details"><i class="fas fa-map-marker-alt"></i> Location: Local Delivery Hub</p>
+                <p class="tracking-details"><i class="fas fa-clock"></i> Estimated Delivery: Today</p>
+                <button class="view-details-btn" onclick="viewStatusDetails('CX987654321')">
+                    <i class="fas fa-info-circle"></i> View Details
+                </button>
+            </div>
+
+            <div class="tracking-card fade-in">
+                <span class="status-badge delivered"><i class="fas fa-check-circle"></i> Delivered</span>
+                <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Consignment: CX456789123</h3>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-header">
+                        <span>Progress</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill" data-progress="100"></div>
+                        <div class="truck-icon" data-progress="100">🚚</div>
+                    </div>
+                </div>
+                <div class="vertical-timeline">
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-box"></i> Booked</div>
+                        <div class="timeline-step-desc">June 14, 2023 - 11:20 AM</div>
+                    </div>
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-warehouse"></i> Processing</div>
+                        <div class="timeline-step-desc">June 14, 2023 - 3:45 PM</div>
+                    </div>
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-truck-moving"></i> In Transit</div>
+                        <div class="timeline-step-desc">June 15, 2023 - 9:30 AM</div>
+                    </div>
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-truck"></i> Out for Delivery</div>
+                        <div class="timeline-step-desc">June 15, 2023 - 11:15 AM</div>
+                    </div>
+                    <div class="timeline-step completed">
+                        <div class="timeline-step-title"><i class="fas fa-check-circle"></i> Delivered</div>
+                        <div class="timeline-step-desc">June 15, 2023 - 2:30 PM</div>
+                    </div>
+                </div>
+                <p class="tracking-details"><i class="fas fa-map-marker-alt"></i> Location: Delivered to Customer</p>
+                <p class="tracking-details"><i class="fas fa-calendar-check"></i> Delivered on: June 15, 2023</p>
+                <button class="view-details-btn" onclick="viewStatusDetails('CX456789123')">
+                    <i class="fas fa-info-circle"></i> View Details
+                </button>
+            </div>
+        </div>
+
+        <!-- Bulk Tracking -->
+        <div class="bulk-tracking">
+            <div class="bulk-card">
+                <h3 class="bulk-title">Bulk Tracking</h3>
+                <p class="bulk-desc">Track multiple consignments at once by entering them separated by commas</p>
+                <div class="bulk-form">
+                    <textarea class="bulk-textarea" id="bulkTextarea" rows="3" placeholder="CX123456789, CX987654321, CX456789123..."></textarea>
+                    <button class="bulk-btn" onclick="trackBulk()">
+                        <i class="fas fa-search"></i> Track All Shipments
+                    </button>
+                </div>
+                <div class="bulk-results" id="bulkResults">
+                    <!-- Bulk results will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Show notification toast
+        function showNotification(message, type = 'success') {
+            const toast = document.getElementById('notificationToast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = toast.querySelector('i');
+           
+            toastMessage.textContent = message;
+            toast.className = `toast ${type} show`;
+           
+            // Update icon based on type
+            if (type === 'success') {
+                toastIcon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                toastIcon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'warning') {
+                toastIcon.className = 'fas fa-info-circle';
+            }
+           
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Track package function
+        function trackPackage(trackingNumber = null) {
+            const trackingInput = document.getElementById('trackingInput');
+            if (!trackingInput && !trackingNumber) return;
+            
+            const numberToTrack = trackingNumber || trackingInput.value.trim();
+           
+            if (!numberToTrack) {
+                showNotification('Please enter a consignment number', 'error');
+                return;
+            }
+           
+            if (!numberToTrack.startsWith('CX') || numberToTrack.length !== 11) {
+                showNotification('Please enter a valid consignment number (e.g., CX123456789)', 'error');
+                return;
+            }
+            
+            // Save to recent searches
+            saveToRecentSearches(numberToTrack);
+           
+            // Show loading state
+            showNotification('Tracking your package...', 'warning');
+           
+            // Simulate API call
+            setTimeout(() => {
+                // Show status page
+                window.location.href = 'status.html?consignment=' + numberToTrack;
+               
+                // Show success message
+                showNotification('Package status loaded successfully', 'success');
+            }, 1500);
+        }
+
+        // Track by mobile number
+        function trackByMobile() {
+            const mobileInput = document.getElementById('mobileInput');
+            if (!mobileInput) return;
+            
+            const mobileNumber = mobileInput.value.trim();
+           
+            if (!mobileNumber) {
+                showNotification('Please enter a mobile number', 'error');
+                return;
+            }
+           
+            showNotification('Searching for shipments linked to ' + mobileNumber, 'warning');
+           
+            // Simulate API call
+            setTimeout(() => {
+                // For demo purposes, we'll just track a sample package
+                trackPackage('CX123456789');
+            }, 1500);
+        }
+
+        // Track by reference number
+        function trackByReference() {
+            const referenceInput = document.getElementById('referenceInput');
+            if (!referenceInput) return;
+            
+            const referenceNumber = referenceInput.value.trim();
+           
+            if (!referenceNumber) {
+                showNotification('Please enter a reference number', 'error');
+                return;
+            }
+           
+            showNotification('Searching for reference: ' + referenceNumber, 'warning');
+           
+            // Simulate API call
+            setTimeout(() => {
+                // For demo purposes, we'll just track a sample package
+                trackPackage('CX987654321');
+            }, 1500);
+        }
+
+        // Bulk tracking function
+        function trackBulk() {
+            const bulkTextarea = document.getElementById('bulkTextarea');
+            const bulkResults = document.getElementById('bulkResults');
+            
+            if (!bulkTextarea) return;
+            
+            const input = bulkTextarea.value.trim();
+            if (!input) {
+                showNotification('Please enter at least one consignment number', 'error');
+                return;
+            }
+            
+            const consignments = input.split(',').map(c => c.trim()).filter(c => c !== '');
+            
+            if (consignments.length === 0) {
+                showNotification('Please enter valid consignment numbers', 'error');
+                return;
+            }
+            
+            showNotification(`Tracking ${consignments.length} consignments`, 'warning');
+            
+            // Clear previous results
+            bulkResults.innerHTML = '';
+            bulkResults.style.display = 'block';
+            
+            // Simulate API calls for each consignment
+            setTimeout(() => {
+                consignments.forEach((cn, index) => {
+                    setTimeout(() => {
+                        // Create result card for each consignment
+                        const resultCard = document.createElement('div');
+                        resultCard.className = 'tracking-card fade-in';
+                        resultCard.innerHTML = `
+                            <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Consignment: ${cn}</h3>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-header">
+                                    <span>Progress</span>
+                                    <span>${Math.floor(Math.random() * 100)}%</span>
+                                </div>
+                                <div class="progress-bar-track">
+                                    <div class="progress-bar-fill" data-progress="60"></div>
+                                    <div class="truck-icon" data-progress="60">🚚</div>
+                                </div>
+                            </div>
+                            <p class="tracking-details">Status: <span class="tracking-status">In Transit</span></p>
+                            <p class="tracking-details">Location: Distribution Center</p>
+                            <button class="view-details-btn" onclick="viewStatusDetails('${cn}')">View Details</button>
+                        `;
+                        
+                        bulkResults.appendChild(resultCard);
+                        
+                        // Animate the progress bar
+                        setTimeout(() => {
+                            const progressFill = resultCard.querySelector('.progress-bar-fill');
+                            const truckIcon = resultCard.querySelector('.truck-icon');
+                            const progress = progressFill.getAttribute('data-progress');
+                            
+                            if (progressFill) progressFill.style.width = progress + '%';
+                            if (truckIcon) truckIcon.style.left = progress + '%';
+                        }, 100);
+                    }, index * 300);
+                });
+                
+                showNotification(`Found ${consignments.length} consignments`, 'success');
+            }, 1500);
+        }
+
+        // Navigate to status page with consignment number
+        function viewStatusDetails(consignmentNumber) {
+            window.location.href = 'status.html?consignment=' + consignmentNumber;
+        }
+
+        // Save to recent searches
+        function saveToRecentSearches(trackingNumber) {
+            let recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+            
+            // Remove if already exists
+            recentSearches = recentSearches.filter(item => item !== trackingNumber);
+            
+            // Add to beginning of array
+            recentSearches.unshift(trackingNumber);
+            
+            // Keep only the last 5 searches
+            if (recentSearches.length > 5) {
+                recentSearches = recentSearches.slice(0, 5);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+            
+            // Update UI
+            updateRecentSearchesUI();
+        }
+
+        // Update recent searches UI
+        function updateRecentSearchesUI() {
+            const recentSearchesContainer = document.getElementById('recentSearches');
+            if (!recentSearchesContainer) return;
+            
+            const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+            
+            if (recentSearches.length === 0) {
+                recentSearchesContainer.innerHTML = '';
+                return;
+            }
+            
+            recentSearchesContainer.innerHTML = '<span style="margin-right: 0.5rem; font-size: 0.9rem;">Recent:</span>';
+            
+            recentSearches.forEach(trackingNumber => {
+                const tag = document.createElement('span');
+                tag.className = 'recent-search-tag';
+                tag.textContent = trackingNumber;
+                tag.onclick = () => {
+                    document.getElementById('trackingInput').value = trackingNumber;
+                    trackPackage(trackingNumber);
+                };
+                
+                recentSearchesContainer.appendChild(tag);
+            });
+        }
+
+        // Toggle accordion
+        function toggleAccordion(id) {
+            const accordion = document.getElementById(id);
+            if (accordion) {
+                accordion.classList.toggle('active');
+                
+                const icon = accordion.querySelector('.fa-chevron-down');
+                if (icon) {
+                    if (accordion.classList.contains('active')) {
+                        icon.className = 'fas fa-chevron-up';
+                    } else {
+                        icon.className = 'fas fa-chevron-down';
+                    }
+                }
+            }
+        }
+
+        // Auto-expand textarea
+        function autoExpandTextarea() {
+            const textarea = document.getElementById('bulkTextarea');
+            if (textarea) {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            }
+        }
+
+        // Animate progress bars and truck icons
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-bar-fill');
+            const truckIcons = document.querySelectorAll('.truck-icon');
+            
+            progressBars.forEach(bar => {
+                const progress = bar.getAttribute('data-progress');
+                setTimeout(() => {
+                    bar.style.width = progress + '%';
+                }, 300);
+            });
+            
+            truckIcons.forEach(truck => {
+                const progress = truck.getAttribute('data-progress');
+                setTimeout(() => {
+                    truck.style.left = progress + '%';
+                }, 300);
+            });
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Back to top button functionality
+            const backToTopButton = document.getElementById('backToTop');
+            if (backToTopButton) {
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('show');
+                    } else {
+                        backToTopButton.classList.remove('show');
+                    }
+                });
+               
+                backToTopButton.addEventListener('click', function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // Add animation classes to elements as they come into view
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        if (entry.target.classList.contains('tracking-card')) {
+                            // Animate progress bars when cards come into view
+                            animateProgressBars();
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.tracking-card, .alt-track-card').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Add Enter key support for tracking input
+            const trackingInput = document.getElementById('trackingInput');
+            if (trackingInput) {
+                trackingInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        trackPackage();
+                    }
+                });
+            }
+
+            // Animate progress bars on page load
+            animateProgressBars();
+            
+            // Load recent searches
+            updateRecentSearchesUI();
+            
+            // Setup auto-expand for textarea
+            autoExpandTextarea();
+        });
+    </script>
+</body>
+</html>
