@@ -1,4 +1,13 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../adminlogin.php");
+    exit;
+}
+?>
+
+<?php
 include_once("navbar.php"); // Assuming navbar.php includes database connection ($conn)
 
 // Include database connection if not already in navbar.php
@@ -21,7 +30,6 @@ if (!isset($conn)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Contact Messages</title>
     <!-- Bootstrap CSS - make sure you have it linked in your navbar.php or here -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -230,8 +238,5 @@ if (!isset($conn)) {
     </div>
 
     <?php include_once("footer.php"); ?>
-
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

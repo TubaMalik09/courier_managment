@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../adminlogin.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -217,8 +226,7 @@ if ($agentQuery && mysqli_num_rows($agentQuery) > 0) {
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        
                     </div>
 
                     <div class="row">
@@ -349,21 +357,21 @@ if ($agentQuery && mysqli_num_rows($agentQuery) > 0) {
 
 
 
-    
+
 
 
                            <!-- Wrapper card with shared header -->
                            <div class="card shadow mb-4 top-services-container">
     <!-- Shared Header -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Top 3 Services</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Top 4 Services</h6>
     </div>
 
     <!-- Body that holds your service cards -->
     <div class="card-body">
         <div class="row">
             <?php
-            $run = mysqli_query($conn, "SELECT * FROM service ORDER BY record_time DESC LIMIT 3");
+            $run = mysqli_query($conn, "SELECT * FROM service ORDER BY record_time DESC LIMIT 4");
             if ($run && mysqli_num_rows($run) > 0) {
                 while ($row = mysqli_fetch_array($run)) { ?>
                     

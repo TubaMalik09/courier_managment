@@ -135,6 +135,7 @@ if(mysqli_num_rows($run) == 1){
 alert('Invlid Credentials')
 </script>";
 
+$_SESSION['loggedin'] = true;
 
 }
 
