@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../adminlogin.php");
+    exit;
+}
+?>
+<?php
 include_once("../connection.php"); // apna db connection file
 // Generate a unique tracking number (e.g., TRK-20250908-XYZ123)
 function generateTrackingNumber() {
@@ -102,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         );
     
         if ($stmt->execute()) {
-            echo "Courier inserted successfully!";
+          
         } else {
             echo "Error executing query: " . $stmt->error;
         }

@@ -7,14 +7,17 @@ include_once("../connection.php");
 $id = $_POST["id"];
 $a = $_POST["a"];
 $b = $_POST["b"];
+$c = $_POST["c"];
+$d = $_POST["d"];
 
 
 
 
 
 
-$run = mysqli_query($conn, "UPDATE `about` 
-SET `title`='$a',`description`='$b'  WHERE id = $id");
+
+
+$run = mysqli_query($conn, "UPDATE `addcourier` SET `sender-name`='$a',`receiver-name`='$b',`total`='$c',`trackingno`='$d' WHERE id = $id");
 } 
 if($run){
     echo '<!DOCTYPE html>
@@ -26,10 +29,10 @@ if($run){
         <script>
             Swal.fire({
                 title: "Success!",
-                text: "About us updated successfully!",
+                text: "Branch Updated successfully!",
                 icon: "success"
             }).then(function() {
-                window.location.href = "ShowAbout.php";
+                window.location.href = "ShowCourier.php";
             });
         </script>
     </body>
