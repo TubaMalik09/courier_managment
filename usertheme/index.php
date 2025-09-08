@@ -787,23 +787,9 @@
     <section id="services">
         <div class="container">
             <h2 class="section-title fade-in-on-scroll">Our Core Services</h2>
-            <div class="services-grid">
-                <div class="service-card card fade-in-on-scroll">
-                    <div class="icon"><i class="fas fa-route"></i></div>
-                    <h3>Real-time Tracking</h3>
-                    <p>Stay informed with live updates on your package's location from pickup to final delivery in Karachi.</p>
-                </div>
-                <div class="service-card card fade-in-on-scroll" style="--scroll-animate-delay: 0.1s;">
-                    <div class="icon"><i class="fas fa-shipping-fast"></i></div>
-                    <h3>Express Delivery</h3>
-                    <p>Choose our express option for same-day or next-day delivery on urgent shipments across Sindh.</p>
-                </div>
-                <div class="service-card card fade-in-on-scroll" style="--scroll-animate-delay: 0.2s;">
-                    <div class="icon"><i class="fas fa-lock"></i></div>
-                    <h3>Secure Handling</h3>
-                    <p>We guarantee the safety of your items with our secure and insured handling process.</p>
-                </div>
-            </div>
+            <div class="services-grid" id="servicesContainer">
+    <!-- Services will be loaded here by JavaScript -->
+</div>
         </div>
     </section>
 
@@ -1027,6 +1013,70 @@
                 observer.observe(element);
             });
 
+            // --- START: Corrected loadServices function and its call ---
+            // Function to fetch and display services
+            async function loadServices() {
+                const servicesContainer = document.getElementById('servicesContainer');
+                servicesContainer.innerHTML = '<p>Loading services...</p>'; // Show loading message
+
+                try {
+                    const response = await fetch('get_services.php');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const services = await response.json();
+
+                    if (services.error) {
+                        throw new Error(services.error);
+                    }
+
+                    if (services.length > 0) {
+                        servicesContainer.innerHTML = ''; // Clear loading message
+
+                        services.forEach((service, index) => {
+                            // Determine icon based on service title or ID (you might need more specific logic here)
+                            // IMPORTANT: If you added an IconClass column, update this to:
+                            // let iconClass = service.IconClass || 'fas fa-info-circle';
+                            let iconClass = 'fas fa-info-circle'; // Default icon
+                            if (service.Title.toLowerCase().includes('tracking')) {
+                                iconClass = 'fas fa-route';
+                            } else if (service.Title.toLowerCase().includes('express') || service.Title.toLowerCase().includes('delivery')) {
+                                iconClass = 'fas fa-shipping-fast';
+                            } else if (service.Title.toLowerCase().includes('secure') || service.Title.toLowerCase().includes('handling')) {
+                                iconClass = 'fas fa-lock';
+                            }
+                            // Add more icon mappings as needed
+
+                            const serviceCard = `
+                                <div class="service-card card fade-in-on-scroll" style="--scroll-animate-delay: ${index * 0.1}s;">
+                                    <div class="icon"><i class="${iconClass}"></i></div>
+                                    <h3>${service.Title}</h3>
+                                    <p>${service.Description}</p>
+                                </div>
+                            `;
+                            servicesContainer.innerHTML += serviceCard;
+                        });
+                        // Re-observe newly added elements for fade-in effect
+                        // This part might need to be adjusted if `observer` is not globally accessible,
+                        // but given its declaration at the top, it should be fine.
+                        document.querySelectorAll('.fade-in-on-scroll').forEach(element => {
+                            observer.observe(element);
+                        });
+                    } else {
+                        servicesContainer.innerHTML = '<p>No services available at the moment.</p>';
+                    }
+                } catch (error) {
+                    console.error('Error loading services:', error);
+                    servicesContainer.innerHTML = `<p style="color: red;">Failed to load services: ${error.message}</p>`;
+                    showNotification(`Failed to load services: ${error.message}`, 'error');
+                }
+            }
+
+            // Call loadServices when the page loads
+            loadServices();
+            // --- END: Corrected loadServices function and its call ---
+
+
             // Initialize map
             function initMap() {
                 map = L.map('map').setView([24.8607, 67.0011], 13); // Karachi coordinates
@@ -1095,7 +1145,7 @@
                 }, 1500);
             });
 
-            // Form validation functions
+            // Form validation functions (rest of your existing validation functions)
             function validateField(fieldId, errorId, validationFn, errorMessage) {
                 const field = document.getElementById(fieldId);
                 const errorElement = document.getElementById(errorId);
@@ -1136,7 +1186,6 @@
             
             function validatePhone(value) {
                 if (value === '') return true; // Phone is optional
-                // Updated phone validation - only numbers and allowed special characters
                 const phoneRegex = /^[\+]?[1-9][\d]{0,15}$|^[\+]?[(]?[\d]{1,4}[)]?[-\s\.]?[\d]{1,15}$/;
                 return phoneRegex.test(value);
             }
@@ -1147,7 +1196,7 @@
                 return !isNaN(numValue) && numValue > 0 && numValue <= 100;
             }
 
-                 // Shipping calculator functionality
+            // Shipping calculator functionality (rest of your existing calculator code)
             const calculatorForm = document.getElementById('shippingCalculator');
             const priceDisplay = document.getElementById('priceDisplay');
             const calculatedPrice = document.getElementById('calculatedPrice');
@@ -1155,23 +1204,18 @@
             const calcBtnText = document.getElementById('calcBtnText');
             const calcLoader = document.getElementById('calcLoader');
             
-            // --- Enhanced Pricing Data ---
             const pricingConfig = {
-                // Base cost per shipment, regardless of weight/distance
                 baseFee: {
                     standard: 150,
                     express: 300,
                     freight: 500
                 },
-                // Tiered weight pricing per KG (first X kg, then subsequent kg)
                 weightTiers: {
-                    standard: { firstKgPrice: 60, additionalKgPrice: 40, breakpoint: 5 }, // First 5kg at 60, then 40
-                    express: { firstKgPrice: 100, additionalKgPrice: 70, breakpoint: 3 }, // First 3kg at 100, then 70
-                    freight: { firstKgPrice: 30, additionalKgPrice: 20, breakpoint: 10 } // First 10kg at 30, then 20
+                    standard: { firstKgPrice: 60, additionalKgPrice: 40, breakpoint: 5 },
+                    express: { firstKgPrice: 100, additionalKgPrice: 70, breakpoint: 3 },
+                    freight: { firstKgPrice: 30, additionalKgPrice: 20, breakpoint: 10 }
                 },
-                // Volumetric weight factor (CM to KG) - standard is 5000 or 6000 for international. We'll use 5000 for domestic.
-                volumetricFactor: 5000, // (L * W * H) / 5000 = Volumetric Weight in KG
-                // City Zones & Distance Factors (simplified zones for illustration)
+                volumetricFactor: 5000,
                 cityZones: {
                     "karachi": { zone: "A", factor: 1.0 },
                     "hyderabad": { zone: "A", factor: 1.1 },
@@ -1182,15 +1226,12 @@
                     "rawalpindi": { zone: "C", factor: 1.9 },
                     "peshawar": { zone: "D", factor: 2.2 },
                     "quetta": { zone: "E", factor: 2.5 },
-                    // Add more cities and assign them to zones.
-                    // For cities not listed, we'll use a default factor.
                     "default": { zone: "X", factor: 1.5 } 
                 },
-                insuranceRate: 0.015, // 1.5% of calculated cost
-                minimumCharge: 300 // Absolute minimum charge for any shipment
+                insuranceRate: 0.015,
+                minimumCharge: 300
             };
             
-            // Utility to clean city names for lookup
             function cleanCityName(city) {
                 return city.toLowerCase().replace(/[^a-z]/g, '');
             }
@@ -1198,24 +1239,21 @@
             calculatorForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                // --- Validation ---
                 const isOriginValid = validateField('origin', 'originError', validateNotEmpty, 'Origin city is required');
                 const isDestinationValid = validateField('destination', 'destinationError', validateNotEmpty, 'Destination city is required');
                 const isWeightValid = validateField('weight', 'weightError', validateWeight, 'Please enter a valid weight between 0.1 and 100 kg');
                 const isServiceValid = validateField('service', 'serviceError', validateNotEmpty, 'Please select a service type');
                 
-                // Validate dimensions if any of them are filled
                 const length = parseFloat(document.getElementById('length').value);
                 const width = parseFloat(document.getElementById('width').value);
                 const height = parseFloat(document.getElementById('height').value);
                 
                 let areDimensionsValid = true;
-                if (length || width || height) { // If any dimension is entered, validate all
+                if (length || width || height) {
                     areDimensionsValid = validateField('length', 'lengthError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered') &&
                                          validateField('width', 'widthError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered') &&
                                          validateField('height', 'heightError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered');
                 } else {
-                    // Clear dimension errors if no dimensions are entered
                     document.getElementById('length').closest('.form-group').classList.remove('error', 'success');
                     document.getElementById('lengthError').style.display = 'none';
                     document.getElementById('width').closest('.form-group').classList.remove('error', 'success');
@@ -1235,28 +1273,22 @@
                 const serviceType = document.getElementById('service').value;
                 const addInsurance = document.getElementById('insurance').checked;
 
-                // Show loading state
                 calcBtnText.style.display = 'none';
                 calcLoader.style.display = 'inline-block';
                 calculateBtn.disabled = true;
                 
-                // Simulate calculation delay
                 setTimeout(() => {
                     let totalCost = 0;
 
-                    // 1. Calculate Volumetric Weight
                     let volumetricWeight = 0;
                     if (length && width && height) {
                         volumetricWeight = (length * width * height) / pricingConfig.volumetricFactor;
                     }
                     
-                    // Use the higher of actual and volumetric weight
                     const chargeableWeight = Math.max(actualWeight, volumetricWeight);
 
-                    // 2. Add Base Fee
                     totalCost += pricingConfig.baseFee[serviceType];
 
-                    // 3. Add Weight-Based Cost (Tiered Pricing)
                     const weightTierConfig = pricingConfig.weightTiers[serviceType];
                     if (chargeableWeight <= weightTierConfig.breakpoint) {
                         totalCost += chargeableWeight * weightTierConfig.firstKgPrice;
@@ -1265,51 +1297,43 @@
                         totalCost += (chargeableWeight - weightTierConfig.breakpoint) * weightTierConfig.additionalKgPrice;
                     }
                     
-                    // 4. Apply Distance/Zone Factor
                     const cleanedOrigin = cleanCityName(originRaw);
                     const cleanedDestination = cleanCityName(destinationRaw);
 
                     const originZone = pricingConfig.cityZones[cleanedOrigin] || pricingConfig.cityZones.default;
                     const destinationZone = pricingConfig.cityZones[cleanedDestination] || pricingConfig.cityZones.default;
 
-                    // A simple logic for distance factor: average of zone factors.
-                    // Could be more complex, e.g., lookup table for Zone A to Zone B.
                     const distanceFactor = (originZone.factor + destinationZone.factor) / 2;
                     totalCost *= distanceFactor;
                     
-                    // 5. Add Insurance (if selected)
                     if (addInsurance) {
                         totalCost += totalCost * pricingConfig.insuranceRate;
                     }
 
-                    // 6. Apply Minimum Charge
                     totalCost = Math.max(totalCost, pricingConfig.minimumCharge);
 
-                    // Round to two decimal places
                     totalCost = totalCost.toFixed(2);
                     
-                    // Display price
                     calculatedPrice.textContent = `PKR ${totalCost}`;
                     priceDisplay.classList.add('show');
                     
-                    // Hide loading state
                     calcBtnText.style.display = 'inline';
                     calcLoader.style.display = 'none';
                     calculateBtn.disabled = false;
                     
                     showNotification('Shipping cost calculated successfully!', 'success');
-                }, 1500); // Simulate network delay
+                }, 1500);
             });
-            // Contact form functionality
+
+            // Contact form functionality (rest of your existing contact form code)
             const contactForm = document.getElementById('contactForm');
             const contactBtn = document.getElementById('contactBtn');
             const contactBtnText = document.getElementById('contactBtnText');
             const contactLoader = document.getElementById('contactLoader');
             
-            contactForm.addEventListener('submit', async (e) => { // Added 'async' keyword
+            contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                // Validate all fields
                 const isNameValid = validateField('name', 'nameError', validateName, 'Please enter a valid name (letters and spaces only, min 2 chars)');
                 const isEmailValid = validateField('email', 'emailError', validateEmail, 'Please enter a valid email address');
                 const isPhoneValid = validateField('phone', 'phoneError', validatePhone, 'Please enter a valid phone number (digits only, with optional +, -, or parentheses)');
@@ -1321,16 +1345,14 @@
                     return;
                 }
                 
-                // Show loading state
                 contactBtnText.style.display = 'none';
                 contactLoader.style.display = 'inline-block';
                 contactBtn.disabled = true;
                 
-                // Collect form data
                 const formData = new FormData(contactForm);
 
                 try {
-                    const response = await fetch('submit_contact.php', { // Make sure this path is correct
+                    const response = await fetch('submit_contact.php', {
                         method: 'POST',
                         body: formData
                     });
@@ -1338,10 +1360,8 @@
                     const result = await response.json();
 
                     if (result.success) {
-                        // Reset form
                         contactForm.reset();
                         
-                        // Remove validation states
                         document.querySelectorAll('.form-group').forEach(group => {
                             group.classList.remove('error', 'success');
                         });
@@ -1393,119 +1413,110 @@
                         }
                     });
                 } finally {
-                    // Hide loading state regardless of success or failure
                     contactBtnText.style.display = 'inline';
                     contactLoader.style.display = 'none';
                     contactBtn.disabled = false;
                 }
             });
 
-            // Add real-time validation and input restrictions
-          function setupInputValidation() {
-    // Name field - only allow letters, spaces, and common name characters
-    const nameInput = document.getElementById('name');
-    nameInput.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/[^A-Za-z\s.'-]/g, '');
-    });
-    nameInput.addEventListener('blur', () => {
-        validateField('name', 'nameError', validateName, 'Please enter a valid name (letters and spaces only, min 2 chars)');
-    });
+            // Add real-time validation and input restrictions (rest of your existing validation setup)
+            function setupInputValidation() {
+                const nameInput = document.getElementById('name');
+                nameInput.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/[^A-Za-z\s.'-]/g, '');
+                });
+                nameInput.addEventListener('blur', () => {
+                    validateField('name', 'nameError', validateName, 'Please enter a valid name (letters and spaces only, min 2 chars)');
+                });
 
-    // Phone field - only allow numbers and phone-related characters
-    const phoneInput = document.getElementById('phone');
-    phoneInput.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/[^0-9+\-()\s]/g, '');
-    });
-    phoneInput.addEventListener('blur', () => {
-        validateField('phone', 'phoneError', validatePhone, 'Please enter a valid phone number (digits only, with optional +, -, or parentheses)');
-    });
+                const phoneInput = document.getElementById('phone');
+                phoneInput.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/[^0-9+\-()\s]/g, '');
+                });
+                phoneInput.addEventListener('blur', () => {
+                    validateField('phone', 'phoneError', validatePhone, 'Please enter a valid phone number (digits only, with optional +, -, or parentheses)');
+                });
 
-    // Email field validation
-    const emailInput = document.getElementById('email');
-    emailInput.addEventListener('invalid', (e) => {
-        e.preventDefault();
-        validateField('email', 'emailError', validateEmail, 'Please enter a valid email address');
-    });
-    emailInput.addEventListener('blur', () => {
-        validateField('email', 'emailError', validateEmail, 'Please enter a valid email address');
-    });
+                const emailInput = document.getElementById('email');
+                emailInput.addEventListener('invalid', (e) => {
+                    e.preventDefault();
+                    validateField('email', 'emailError', validateEmail, 'Please enter a valid email address');
+                });
+                emailInput.addEventListener('blur', () => {
+                    validateField('email', 'emailError', validateEmail, 'Please enter a valid email address');
+                });
 
-    // Add blur event listeners for NEW dimension fields in the calculator
-    document.getElementById('length').addEventListener('blur', () => {
-        const length = parseFloat(document.getElementById('length').value);
-        const width = parseFloat(document.getElementById('width').value);
-        const height = parseFloat(document.getElementById('height').value);
-        if (length || width || height) { // Only validate if at least one dimension is entered
-            validateField('length', 'lengthError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered');
-        } else { // If all are empty, clear any errors
-            document.getElementById('length').closest('.form-group').classList.remove('error', 'success');
-            document.getElementById('lengthError').style.display = 'none';
-        }
-    });
-    document.getElementById('width').addEventListener('blur', () => {
-        const length = parseFloat(document.getElementById('length').value);
-        const width = parseFloat(document.getElementById('width').value);
-        const height = parseFloat(document.getElementById('height').value);
-        if (length || width || height) {
-            validateField('width', 'widthError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered');
-        } else {
-            document.getElementById('width').closest('.form-group').classList.remove('error', 'success');
-            document.getElementById('widthError').style.display = 'none';
-        }
-    });
-    document.getElementById('height').addEventListener('blur', () => {
-        const length = parseFloat(document.getElementById('length').value);
-        const width = parseFloat(document.getElementById('width').value);
-        const height = parseFloat(document.getElementById('height').value);
-        if (length || width || height) {
-            validateField('height', 'heightError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered');
-        } else {
-            document.getElementById('height').closest('.form-group').classList.remove('error', 'success');
-            document.getElementById('heightError').style.display = 'none';
-        }
-    });
+                document.getElementById('length').addEventListener('blur', () => {
+                    const length = parseFloat(document.getElementById('length').value);
+                    const width = parseFloat(document.getElementById('width').value);
+                    const height = parseFloat(document.getElementById('height').value);
+                    if (length || width || height) {
+                        validateField('length', 'lengthError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered');
+                    } else {
+                        document.getElementById('length').closest('.form-group').classList.remove('error', 'success');
+                        document.getElementById('lengthError').style.display = 'none';
+                    }
+                });
+                document.getElementById('width').addEventListener('blur', () => {
+                    const length = parseFloat(document.getElementById('length').value);
+                    const width = parseFloat(document.getElementById('width').value);
+                    const height = parseFloat(document.getElementById('height').value);
+                    if (length || width || height) {
+                        validateField('width', 'widthError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered');
+                    } else {
+                        document.getElementById('width').closest('.form-group').classList.remove('error', 'success');
+                        document.getElementById('widthError').style.display = 'none';
+                    }
+                });
+                document.getElementById('height').addEventListener('blur', () => {
+                    const length = parseFloat(document.getElementById('length').value);
+                    const width = parseFloat(document.getElementById('width').value);
+                    const height = parseFloat(document.getElementById('height').value);
+                    if (length || width || height) {
+                        validateField('height', 'heightError', (val) => val && parseFloat(val) > 0, 'Required if other dimensions are entered');
+                    } else {
+                        document.getElementById('height').closest('.form-group').classList.remove('error', 'success');
+                        document.getElementById('heightError').style.display = 'none';
+                    }
+                });
 
-    // Add blur event listeners for existing calculator fields (excluding dimensions and insurance checkbox)
-    document.querySelectorAll('#shippingCalculator input:not(#length):not(#width):not(#height):not(#insurance), #shippingCalculator select').forEach(field => {
-        field.addEventListener('blur', () => {
-            const fieldId = field.id;
-            switch(fieldId) {
-                case 'origin':
-                    validateField('origin', 'originError', validateNotEmpty, 'Origin city is required');
-                    break;
-                case 'destination':
-                    validateField('destination', 'destinationError', validateNotEmpty, 'Destination city is required');
-                    break;
-                case 'weight':
-                    validateField('weight', 'weightError', validateWeight, 'Please enter a valid weight between 0.1 and 100 kg');
-                    break;
-                case 'service':
-                    validateField('service', 'serviceError', validateNotEmpty, 'Please select a service type');
-                    break;
+                document.querySelectorAll('#shippingCalculator input:not(#length):not(#width):not(#height):not(#insurance), #shippingCalculator select').forEach(field => {
+                    field.addEventListener('blur', () => {
+                        const fieldId = field.id;
+                        switch(fieldId) {
+                            case 'origin':
+                                validateField('origin', 'originError', validateNotEmpty, 'Origin city is required');
+                                break;
+                            case 'destination':
+                                validateField('destination', 'destinationError', validateNotEmpty, 'Destination city is required');
+                                break;
+                            case 'weight':
+                                validateField('weight', 'weightError', validateWeight, 'Please enter a valid weight between 0.1 and 100 kg');
+                                break;
+                            case 'service':
+                                validateField('service', 'serviceError', validateNotEmpty, 'Please select a service type');
+                                break;
+                        }
+                    });
+                });
+
+                document.querySelectorAll('#contactForm select, #contactForm textarea').forEach(field => {
+                    field.addEventListener('blur', () => {
+                        const fieldId = field.id;
+                        switch(fieldId) {
+                            case 'subject':
+                                validateField('subject', 'subjectError', validateNotEmpty, 'Please select a subject');
+                                break;
+                            case 'message':
+                                validateField('message', 'messageError', validateNotEmpty, 'Message is required');
+                                break;
+                        }
+                    });
+                });
             }
-        });
-    });
-
-    // Contact form fields validation (keep as is)
-    document.querySelectorAll('#contactForm select, #contactForm textarea').forEach(field => {
-        field.addEventListener('blur', () => {
-            const fieldId = field.id;
-            switch(fieldId) {
-                case 'subject':
-                    validateField('subject', 'subjectError', validateNotEmpty, 'Please select a subject');
-                    break;
-                case 'message':
-                    validateField('message', 'messageError', validateNotEmpty, 'Message is required');
-                    break;
-            }
-        });
-    });
-}
             
-            // Initialize input validation
             setupInputValidation();
 
-            // Notification system
             function showNotification(message, type = 'info') {
                 const notification = document.getElementById('notification');
                 const notificationText = document.querySelector('.notification-text');

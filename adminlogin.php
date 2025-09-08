@@ -103,7 +103,7 @@
       <button type="submit" class="login-btn" name ="btn">Login</button>
 
       <div class="bottom-text">
-        Don't have an account? <a href="#">Sign up</a>
+        I am Agent? <a href="agentlogin.php">Login</a>
       </div>
     </form>
   </div>
