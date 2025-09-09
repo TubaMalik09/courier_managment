@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 0); // Disable display of errors for security in production
+ini_set('display_startup_errors', 0);
+error_reporting(E_ALL); // Log all errors to the server error log
+
 header('Content-Type: application/json');
 
 $response = [
@@ -6,11 +10,11 @@ $response = [
     'message' => 'An unexpected error occurred.'
 ];
 
-// Database credentials - !! MAKE SURE THESE ARE CORRECT !!
+// Database credentials
 $servername = "localhost";
-$username = "root"; // Your actual MySQL username
-$password = "";     // Your actual MySQL password (often empty for root on local setup)
-$dbname = "cms";    // Your actual database name where 'contact' table resides
+$username = "root";
+$password = "";
+$dbname = "cms";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -18,13 +22,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     $response['message'] = "Database connection failed: " . $conn->connect_error;
-    error_log("Database connection failed: " . $conn->connect_error); // Log error for debugging
+    error_log("Database connection failed: " . $conn->connect_error); // Log the error
     echo json_encode($response);
-    exit();
+    exit(); // Exit if DB connection fails
 }
 
-// 1. Receive data (check if POST request)
+// Proceed only if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // 1. Get data from POST request
     $name = $_POST['name'] ?? '';
     $email = $_POST['email'] ?? '';
     $phone = $_POST['phone'] ?? '';
@@ -33,86 +38,119 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 2. Server-side Validation
     $errors = [];
-    if (empty($name) || strlen($name) < 2) {
-        $errors[] = "Name is required and must be at least 2 characters.";
-    }
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "A valid email address is required.";
-    }
-    if (empty($subject)) {
-        $errors[] = "Subject is required.";
-    }
-    if (empty($message) || strlen($message) < 10) { // Enforcing a minimum message length
-        $errors[] = "Message is required and must be at least 10 characters.";
-    }
-    // Phone is optional in client-side validation, so we'll allow it to be empty.
-    // If you want to strictly validate phone on server, uncomment this:
-    /*
-    if (!empty($phone) && !preg_match("/^[\+]?[1-9][\d]{0,15}$|^[\+]?[(]?[\d]{1,4}[)]?[-\s\.]?[\d]{1,15}$/", $phone)) {
-        $errors[] = "Please enter a valid phone number.";
-    }
-    */
+    if (empty($name)) { $errors[] = "Name is required."; }
+    if (empty($email)) { $errors[] = "Email is required."; }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { $errors[] = "Invalid email format."; }
+    // Add more validation rules as needed
 
     if (!empty($errors)) {
-        $response['message'] = implode("<br>", $errors); // Join errors for client display
+        $response['message'] = implode("\n", $errors); // Use \n for SweetAlert newlines
         echo json_encode($response);
+        $conn->close(); // Close DB connection before exiting
         exit();
     }
 
-    // 3. Sanitize data
+    // 3. Sanitize and escape data for database insertion
     $name = $conn->real_escape_string(htmlspecialchars(strip_tags($name)));
     $email = $conn->real_escape_string(htmlspecialchars(strip_tags($email)));
-    $phone = $conn->real_escape_string(htmlspecialchars(strip_tags($phone))); // Sanitize phone as well
+    $phone = $conn->real_escape_string(htmlspecialchars(strip_tags($phone)));
     $subject = $conn->real_escape_string(htmlspecialchars(strip_tags($subject)));
     $message = $conn->real_escape_string(htmlspecialchars(strip_tags($message)));
 
-    // 4. Store data in MySQL - !! UPDATED TABLE NAME AND COLUMNS !!
-    // Ensure the number of 's' matches the number of parameters and their types (all strings here)
-    $stmt = $conn->prepare("INSERT INTO contact (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)");
+    // 4. Prepare and execute the SQL INSERT statement using prepared statements
+    // Make sure 'submission_date' column is of type DATETIME or TIMESTAMP
+    $stmt = $conn->prepare("INSERT INTO contact (name, email, phone, subject, message, submission_date) VALUES (?, ?, ?, ?, ?, NOW())");
+
     if ($stmt === false) {
-        $response['message'] = "Prepare failed: " . $conn->error;
-        error_log("Prepare failed: " . $conn->error);
+        $response['message'] = "Database statement preparation failed: " . $conn->error;
+        error_log("Database statement preparation failed: " . $conn->error);
         echo json_encode($response);
+        $conn->close();
         exit();
     }
-    $stmt->bind_param("sssss", $name, $email, $phone, $subject, $message); // 5 's' for 5 string params
+
+    // "sssss" indicates five string parameters
+    $stmt->bind_param("sssss", $name, $email, $phone, $subject, $message);
 
     if ($stmt->execute()) {
         $response['success'] = true;
-        $response['message'] = "Message sent successfully! We will get back to you soon.";
+        $response['message'] = "Your message has been sent successfully!";
 
-        // 5. Send Email Notification (Optional - Uncomment and configure if needed)
-        /*
-        $to = "your_email@example.com"; // Your email address
-        $email_subject = "New Contact Form Submission: " . $subject;
-        $email_body = "You have received a new message from your website contact form.\n\n" .
-                      "Here are the details:\n\n" .
-                      "Name: " . $name . "\n" .
-                      "Email: " . $email . "\n" .
-                      "Phone: " . (!empty($phone) ? $phone : 'N/A') . "\n" . // Include phone if available
-                      "Subject: " . $subject . "\n" .
-                      "Message:\n" . $message;
-        $headers = "From: webmaster@yourdomain.com\r\n"; // Replace with your domain email
-        $headers .= "Reply-To: " . $email . "\r\n";
-        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        // --- START PHPMailer Integration ---
+        // IMPORTANT: Adjust these paths based on your actual file structure
+        // If submit_contact.php is in 'courier_managment/usertheme/'
+        // and 'vendor' is in 'courier_managment/', then go up one level.
+        require_once __DIR__ . '/../vendor/PHPMailer/src/Exception.php';
+        require_once __DIR__ . '/../vendor/PHPMailer/src/PHPMailer.php';
+        require_once __DIR__ . '/../vendor/PHPMailer/src/SMTP.php';
 
-        if (!mail($to, $email_subject, $email_body, $headers)) {
-            error_log("Failed to send email notification for contact form from " . $email);
-        }
-        */
+        // ... inside the if ($stmt->execute()) block ...
+        // ... inside the if ($stmt->execute()) block ...
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+$mail = new PHPMailer(true); // Enable exceptions
+
+try {
+    // Enable detailed SMTP debugging to the server error log (optional, but good for initial setup)
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+    $mail->Debugoutput = function($str, $level) {
+        error_log("PHPMailer DEBUG ($level): " . $str);
+    };
+
+    // Server settings for MailHog
+    $mail->isSMTP();
+    $mail->Host       = 'localhost';    // MailHog runs on localhost
+    $mail->SMTPAuth   = false;          // MailHog typically doesn't require authentication
+    $mail->Username   = '';             // Not needed for MailHog
+    $mail->Password   = '';             // Not needed for MailHog
+    $mail->SMTPSecure = false;          // Not needed for MailHog (or use PHPMailer::ENCRYPTION_STARTTLS if MailHog supports it on 587, but usually not needed for local)
+    $mail->Port       = 1025;           // MailHog's SMTP port
+
+    // Recipients (these don't have to be real emails when using MailHog)
+    $mail->setFrom('no-reply@courierx.com', 'CourierX Contact Form'); // Use a generic no-reply address
+    $mail->addAddress('admin@example.com', 'Admin'); // MailHog will catch this
+    $mail->addReplyTo($email, $name); // Still useful for reply-to headers
+
+    // Content
+    $mail->isHTML(false);
+    $mail->Subject = "New Contact Form Submission: " . $subject;
+    $mail->Body    = "You have received a new message from your website contact form.\n\n" .
+                     "Here are the details:\n\n" .
+                     "Name: " . $name . "\n" .
+                     "Email: " . $email . "\n" .
+                     "Phone: " . (!empty($phone) ? $phone : 'N/A') . "\n" .
+                     "Subject: " . $subject . "\n" .
+                     "Message:\n" . $message;
+    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients.';
+
+    $mail->send();
+    // $response['message'] is already set to success, no need to change it here.
+    // You might want to remove the "(Note: Admin email notification failed.)" part
+    // from the catch block, or only show it if not in development.
+
+} catch (Exception $e) {
+    error_log("PHPMailer EXCEPTION (MailHog): " . $e->getMessage() . " | Mailer Error Info: " . $mail->ErrorInfo);
+    // Optionally, inform the user if the local email failed (less common with MailHog)
+    // $response['message'] .= "\n(Note: Local email notification failed.)";
+}
+$mail->SMTPDebug = 0; // Always turn off debugging in production or when not actively debugging
+// --- END PHPMailer Integration ---
+// --- END PHPMailer Integration ---
     } else {
-        $response['message'] = "Error executing statement: " . $stmt->error;
-        error_log("Error executing statement: " . $stmt->error);
+        $response['message'] = "Error inserting data: " . $stmt->error;
+        error_log("Error executing database statement: " . $stmt->error);
     }
 
-    $stmt->close();
+    $stmt->close(); // Close the prepared statement
 } else {
-    $response['message'] = "Invalid request method.";
+    // If it's not a POST request
+    $response['message'] = "Invalid request method. This script only accepts POST requests.";
 }
 
-$conn->close();
-
-// 6. Respond with JSON
-echo json_encode($response);
+$conn->close(); // Close the database connection
+echo json_encode($response); // Send the JSON response
+exit(); // Ensure no further output
 ?>

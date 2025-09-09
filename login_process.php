@@ -39,9 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Prepare a SQL statement to prevent SQL injection
-    // Select the hashed password from the database
-    $stmt = $conn->prepare("SELECT id, name, password FROM agent WHERE name = ?");
-    
+    // Select id, username, and plain password from the database
+    $stmt = $conn->prepare("SELECT id, username, password FROM agents WHERE username = ?");
+
     if (!$stmt) {
         error_log("Prepare failed: (" . $conn->errno . ") " . $conn->error);
         $_SESSION['error_message'] = "A server error occurred during query preparation.";
@@ -55,16 +55,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        // Verify the password using password_verify() for hashed passwords
-        // IMPORTANT: Ensure your registration process hashes passwords with password_hash()
-        if (password_verify($password, $row['password'])) {
+        // DIRECT PLAIN TEXT PASSWORD COMPARISON (LESS SECURE)
+        if ($password === $row['password']) { // Compare the submitted password directly with the stored plain text password
             // Password is correct, set session variables
             $_SESSION['agent_id'] = $row['id'];
-            $_SESSION['agent_name'] = $row['name'];
+            $_SESSION['agent_username'] = $row['username']; // Use username as name since 'name' column is missing
             $_SESSION['logged_in'] = true;
 
             // Redirect to a dashboard or success page
-            header("Location: dashboard.php"); // Create a dashboard.php file
+            header("Location: Admin/ShowAgent.php"); // Create a dashboard.php file
             exit();
         } else {
             // Invalid password
