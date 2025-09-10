@@ -545,6 +545,7 @@
     </style>
 </head>
 <body>
+        <?php include_once("navbar.php"); ?>
     <!-- Notification Toast -->
     <div class="toast" id="notificationToast">
         <i class="fas fa-check-circle"></i>
@@ -606,7 +607,7 @@
             </div>
         </div>
     </section>
-
+    <?php include_once("footer.php"); ?>
     
 
     <script>
@@ -660,7 +661,7 @@
             // Simulate API call
             setTimeout(() => {
                 // Show status page
-                window.location.href = 'status.html?consignment=' + numberToTrack;
+               window.location.href = 'track_shipment.php?consignment=' + numberToTrack;
                
                 // Show success message
                 showNotification('Package status loaded successfully', 'success');
@@ -779,8 +780,8 @@
 
         // Navigate to status page with consignment number
         function viewStatusDetails(consignmentNumber) {
-            window.location.href = 'status.html?consignment=' + consignmentNumber;
-        }
+    window.location.href = 'track_shipment.php?consignment=' + consignmentNumber;
+}
 
         // Save to recent searches
         function saveToRecentSearches(trackingNumber) {

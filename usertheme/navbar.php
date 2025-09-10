@@ -203,96 +203,10 @@
             box-shadow: 0 0 10px var(--white);
         }
 
-        /* Dropdown menu */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--white);
-            min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease forwards;
-        }
-
-        .dropdown-content a {
-            display: block;
-            padding: 0.8rem 1rem;
-            color: var(--dark-grey);
-            text-decoration: none;
-            transition: var(--transition);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .dropdown-content a:hover {
-            background: var(--light-grey);
-            color: var(--orange);
-            text-shadow: none;
-        }
-
-        .dropdown:hover .dropdown-content,
-        .dropdown:focus-within .dropdown-content {
-            display: block;
-        }
-
-        .dropdown > a::after {
-            content: '';
-            display: inline-block;
-            width: 0.8em;
-            height: 0.8em;
-            margin-left: 0.5rem;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z'/%3E%3C/svg%3E") no-repeat center;
-            background-size: contain;
-            vertical-align: middle;
-        }
-
         .nav-buttons {
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
-
-        .nav-login {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-
-        .nav-login:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .nav-cta {
-            background: linear-gradient(135deg, var(--orange), var(--light-orange));
-            color: var(--white);
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 2rem;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
-            transition: var(--transition);
-        }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.6);
         }
 
         .mobile-menu-btn {
@@ -312,11 +226,6 @@
 
         .mobile-menu-btn:hover {
             background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Mobile navigation buttons - hidden by default */
-        .mobile-nav-buttons {
-            display: none;
         }
 
         /* Responsive Design */
@@ -357,49 +266,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-            }
-
-            .mobile-nav-buttons {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-                margin-top: 1rem;
-                padding: 0 1rem;
-                width: 100%;
-            }
-
-            .mobile-nav-buttons button {
-                width: 100%;
-                padding: 0.8rem;
-            }
-            
-            /* Mobile dropdown */
-            .dropdown-content {
-                position: static;
-                display: none;
-                background: rgba(255, 255, 255, 0.1);
-                box-shadow: none;
-                margin: 0.5rem 0 0 1rem;
-                width: calc(100% - 2rem);
-            }
-            
-            .dropdown.active .dropdown-content {
-                display: block;
-            }
-            
-            .dropdown > a::after {
-                content: '';
-                float: right;
-                transition: transform 0.3s ease;
-            }
-            
-            .dropdown.active > a::after {
-                transform: rotate(180deg);
-            }
-            
-            .dropdown-content a {
-                color: var(--white);
-                padding: 0.7rem 1rem;
             }
         }
 
@@ -446,90 +312,6 @@
                 align-items: center;
                 justify-content: center;
             }
-        }
-
-        /* Notification badge */
-        .notification-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #ff3333;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
-        }
-        
-        /* User Profile */
-        .hidden {
-            display: none;
-        }
-
-        .user-profile {
-            position: relative;
-        }
-
-        .profile-icon {
-            font-size: 1.5rem;
-            color: var(--white);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-
-        .profile-icon:hover {
-            color: var(--light-grey);
-        }
-
-        .profile-dropdown-content {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--white);
-            min-width: 150px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            margin-top: 10px;
-            z-index: 1000;
-            display: none;
-            animation: fadeIn 0.3s ease forwards;
-        }
-
-        .user-profile:hover .profile-dropdown-content,
-        .profile-dropdown-content:focus-within {
-            display: block;
-        }
-
-        .profile-dropdown-content a {
-            color: var(--dark-grey);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .profile-dropdown-content a:hover {
-            background-color: var(--light-grey);
-            color: var(--orange);
-        }
-        
-        /* Notification and Message Icons */
-        .nav-icon {
-            font-size: 1.2rem;
-            position: relative;
-            color: var(--white);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-icon:hover {
-            transform: scale(1.1);
         }
         
         /* Search Bar */
@@ -582,49 +364,6 @@
             .search-input {
                 width: 100%;
             }
-            
-            .user-profile {
-                margin-top: 1rem;
-                width: 100%;
-            }
-            
-            .profile-dropdown-content {
-                position: static;
-                width: 100%;
-                margin-top: 0.5rem;
-                display: none;
-            }
-            
-            .user-profile.active .profile-dropdown-content {
-                display: block;
-            }
-            
-            .nav-icon .icon {
-                width: 1.2em;
-                height: 1.2em;
-            }
-        }
-        
-        /* Improved focus styles */
-        .nav-menu a:focus,
-        .dropdown > a:focus,
-        .nav-icon:focus,
-        .profile-icon:focus {
-            outline: 2px solid var(--white);
-            outline-offset: 4px;
-            border-radius: 2px;
-        }
-        
-        /* Improved mobile experience */
-        @media (max-width: 768px) {
-            .nav-menu {
-                padding-top: 3rem;
-            }
-            
-            .dropdown-content a:focus {
-                background-color: var(--light-grey);
-                color: var(--orange);
-            }
         }
         
         /* Loading animation for search */
@@ -669,38 +408,20 @@
                 <span class="icon icon-close" aria-hidden="true"></span>
             </button>
             
-            <li role="none"><a href="index.html" class="active" role="menuitem">Home</a></li>
-            <li role="none"><a href="track.html" role="menuitem">Track</a></li>
-            
-            <li class="dropdown" role="none">
-                <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false">Services</a>
-                <div class="dropdown-content" role="menu">
-                    <a href="#" role="menuitem">Domestic Shipping</a>
-                    <a href="#" role="menuitem">International Shipping</a>
-                    <a href="#" role="menuitem">Express Delivery</a>
-                    <a href="#" role="menuitem">Business Solutions</a>
-                </div>
-            </li>
-            
-            <li role="none"><a href="status.html" role="menuitem">Status</a></li>
-            <li role="none"><a href="print.html" role="menuitem">Print</a></li>
-            
+            <li role="none"><a href="index.php" class="active" role="menuitem">Home</a></li>
+            <li role="none"><a href="track.php" role="menuitem">Track</a></li>
+            <li role="none"><a href="track_shipment.php" role="menuitem">Status</a></li>
           
-            
         </ul>
         
         <!-- Desktop buttons -->
         <div class="nav-buttons">
             <!-- Search Bar -->
             <form class="search-form" action="/search" method="get" role="search">
-                <input type="text" placeholder="Search..." name="q" class="search-input" aria-label="Search">
-                <button type="submit" class="search-btn" aria-label="Submit search">
-                    <span class="icon icon-search" aria-hidden="true"></span>
+               
+                    
                 </button>
             </form>
-            
-           
-            </div>
         </div>
         
         <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">
@@ -708,7 +429,7 @@
         </button>
     </nav>
 
-   
+
 
     <script>
         // Mobile menu toggle functionality
@@ -718,20 +439,8 @@
             const closeMenu = document.getElementById('closeMenu');
             const navMenu = document.getElementById('navMenu');
             const logo = document.getElementById('logo');
-            const loginBtn = document.getElementById('loginBtn');
-            const registerBtn = document.getElementById('registerBtn');
-            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
-            const mobileRegisterBtn = document.getElementById('mobileRegisterBtn');
-            const profileBtn = document.getElementById('profileBtn');
-            const mobileProfileBtn = document.getElementById('mobileProfileBtn');
             const searchForm = document.querySelector('.search-form');
             const searchInput = document.querySelector('.search-input');
-            
-            // Check if user is logged in (from localStorage)
-            let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            
-            // Initialize UI based on login state
-            updateLoginUI(isLoggedIn);
             
             // Event Listeners
             if (mobileMenuBtn && navMenu) {
@@ -752,26 +461,12 @@
             }
 
             // Close mobile menu when clicking on a link
-            const navLinks = document.querySelectorAll('.nav-menu a:not(.dropdown > a)');
+            const navLinks = document.querySelectorAll('.nav-menu a');
             navLinks.forEach(link => {
                 link.addEventListener('click', function() {
                     mobileMenuBtn.setAttribute('aria-expanded', 'false');
                     navMenu.classList.remove('active');
                     document.body.style.overflow = 'auto';
-                });
-            });
-            
-            // Handle dropdowns on mobile
-            const dropdowns = document.querySelectorAll('.dropdown > a');
-            dropdowns.forEach(dropdown => {
-                dropdown.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        const parent = this.parentElement;
-                        const expanded = this.getAttribute('aria-expanded') === 'true' || false;
-                        this.setAttribute('aria-expanded', !expanded);
-                        parent.classList.toggle('active');
-                    }
                 });
             });
             
@@ -784,46 +479,10 @@
                     navMenu.classList.remove('active');
                     document.body.style.overflow = 'auto';
                 }
-                
-                // Close profile dropdowns when clicking outside
-                const userProfile = document.getElementById('userProfile');
-                if (userProfile && !userProfile.contains(e.target) && 
-                    !profileBtn.contains(e.target) && 
-                    userProfile.classList.contains('active')) {
-                    userProfile.classList.remove('active');
-                    profileBtn.setAttribute('aria-expanded', 'false');
-                }
             });
             
             // Navigation handlers
             logo.addEventListener('click', function() { navigateTo('index.html'); });
-            loginBtn.addEventListener('click', function() { navigateTo('login.html'); });
-            registerBtn.addEventListener('click', function() { navigateTo('register.html'); });
-            mobileLoginBtn.addEventListener('click', function() { navigateTo('login.html'); });
-            mobileRegisterBtn.addEventListener('click', function() { navigateTo('register.html'); });
-            
-            // Profile dropdown handlers
-            if (profileBtn) {
-                profileBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const userProfile = document.getElementById('userProfile');
-                    const expanded = profileBtn.getAttribute('aria-expanded') === 'true' || false;
-                    profileBtn.setAttribute('aria-expanded', !expanded);
-                    
-                    if (window.innerWidth <= 768) {
-                        userProfile.classList.toggle('active');
-                    }
-                });
-            }
-            
-            if (mobileProfileBtn) {
-                mobileProfileBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const expanded = mobileProfileBtn.getAttribute('aria-expanded') === 'true' || false;
-                    mobileProfileBtn.setAttribute('aria-expanded', !expanded);
-                    document.querySelector('.mobile-profile').classList.toggle('active');
-                });
-            }
             
             // Search functionality
             if (searchForm) {
@@ -845,21 +504,11 @@
             
             // Keyboard navigation improvements
             document.addEventListener('keydown', function(e) {
-                // Close dropdowns on Escape key
-                if (e.key === 'Escape') {
-                    const activeDropdowns = document.querySelectorAll('.dropdown.active, .user-profile.active');
-                    activeDropdowns.forEach(function(dropdown) {
-                        dropdown.classList.remove('active');
-                        const trigger = dropdown.querySelector('a[aria-expanded]');
-                        if (trigger) trigger.setAttribute('aria-expanded', 'false');
-                    });
-                    
-                    // Close mobile menu
-                    if (navMenu.classList.contains('active')) {
-                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                        navMenu.classList.remove('active');
-                        document.body.style.overflow = 'auto';
-                    }
+                // Close mobile menu on Escape key
+                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    navMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
                 }
             });
         });
@@ -868,61 +517,6 @@
         function navigateTo(url) {
             window.location.href = url;
         }
-        
-        // Toggle login state
-        function toggleLoginStatus() {
-            let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            isLoggedIn = !isLoggedIn;
-            localStorage.setItem('isLoggedIn', isLoggedIn);
-            updateLoginUI(isLoggedIn);
-        }
-        
-        function updateLoginUI(loggedIn) {
-            const loginBtn = document.getElementById('loginBtn');
-            const registerBtn = document.getElementById('registerBtn');
-            const userProfile = document.getElementById('userProfile');
-            const mobileProfile = document.querySelector('.mobile-profile');
-            
-            if (loggedIn) {
-                loginBtn.classList.add('hidden');
-                registerBtn.classList.add('hidden');
-                userProfile.classList.remove('hidden');
-                if (mobileProfile) mobileProfile.classList.remove('hidden');
-            } else {
-                loginBtn.classList.remove('hidden');
-                registerBtn.classList.remove('hidden');
-                userProfile.classList.add('hidden');
-                if (mobileProfile) mobileProfile.classList.add('hidden');
-            }
-        }
-        
-        // For demonstration: add toggle button in the main content
-        document.addEventListener('DOMContentLoaded', function() {
-            const mainContent = document.querySelector('main');
-            if (mainContent) {
-                const demoButton = document.createElement('button');
-                demoButton.textContent = 'Toggle Login State (Demo)';
-                demoButton.style.margin = '1rem';
-                demoButton.style.padding = '0.5rem 1rem';
-                demoButton.style.backgroundColor = '#FF6B00';
-                demoButton.style.color = 'white';
-                demoButton.style.border = 'none';
-                demoButton.style.borderRadius = '4px';
-                demoButton.style.cursor = 'pointer';
-                
-                demoButton.addEventListener('click', function() {
-                    toggleLoginStatus();
-                    alert('Login state toggled for demonstration. In a real application, this would be handled by your authentication system.');
-                });
-                
-                const demoText = document.createElement('p');
-                demoText.textContent = 'Use the button below to toggle between logged in and logged out states for demonstration purposes.';
-                demoText.style.margin = '1rem';
-                
-                mainContent.appendChild(demoText);
-                mainContent.appendChild(demoButton);
-            }
-        });
     </script>
 </body>
 </html>

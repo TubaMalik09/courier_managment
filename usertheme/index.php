@@ -1110,41 +1110,24 @@
             
             mapObserver.observe(mapSection);
 
-            // Tracking functionality
+                      // Tracking functionality
             const trackBtn = document.getElementById('trackBtn');
             const trackingInput = document.getElementById('trackingInput');
-            const mapOverlay = document.getElementById('mapOverlay');
+            const mapOverlay = document.getElementById('mapOverlay'); // Keep this if you still want map interactions
             
             trackBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                if (!trackingInput.value.trim()) {
+                e.preventDefault(); // Prevent default form submission
+
+                const consignmentNumber = trackingInput.value.trim();
+
+                if (!consignmentNumber) {
                     showNotification('Please enter a tracking number', 'error');
                     return;
                 }
-                
-                // Simulate tracking
-                showNotification('Tracking your package...', 'success');
-                
-                // Hide overlay after a delay to simulate loading
-                setTimeout(() => {
-                    mapOverlay.classList.add('hidden');
-                    
-                    // Simulate moving marker for demo purposes
-                    if (marker) {
-                        // Animate marker to a new position
-                        const newLat = 24.8607 + (Math.random() - 0.5) * 0.05;
-                        const newLng = 67.0011 + (Math.random() - 0.5) * 0.05;
-                        
-                        marker.setLatLng([newLat, newLng])
-                            .bindPopup('Your package is here!')
-                            .openPopup();
-                        
-                        map.panTo([newLat, newLng]);
-                    }
-                }, 1500);
-            });
 
+                // Redirect to the track_shipment.php page with the consignment number
+                window.location.href = `track_shipment.php?consignment=${encodeURIComponent(consignmentNumber)}`;
+            });
             // Form validation functions (rest of your existing validation functions)
             function validateField(fieldId, errorId, validationFn, errorMessage) {
                 const field = document.getElementById(fieldId);

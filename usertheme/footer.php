@@ -597,11 +597,10 @@
                     <button class="footer-section-toggle">+</button>
                 </h4>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="track.html">Track Package</a></li>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="track.php">Track Package</a></li>
                     <li><a href="services.html">Services</a></li>
-                    <li><a href="print.html">Print Labels</a></li>
-                    <li><a href="status.html">Delivery Status</a></li>
+                    <li><a href="get_shipment_status.php">Delivery Status</a></li>
                 </ul>
             </div>
             <div class="footer-contact">
