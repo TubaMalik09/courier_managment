@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --orange: #FF6B00;
-            --light-orange: #FFA94D;
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
             --white: #FFFFFF;
             --light-grey: #F5F5F5;
             --dark-grey: #333333;
@@ -83,16 +83,22 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--orange);
+            color: var(--primary-color);
             font-weight: bold;
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05);
         }
 
         .footer-logo-icon {
             width: 40px;
             height: 40px;
-            background: var(--orange);
+            background: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -105,15 +111,15 @@
         @keyframes pulse {
             0% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.4);
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4);
             }
             70% {
                 transform: scale(1.05);
-                box-shadow: 0 0 0 8px rgba(255, 107, 0, 0);
+                box-shadow: 0 0 0 8px rgba(52, 152, 219, 0);
             }
             100% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 107, 0, 0);
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
             }
         }
 
@@ -143,7 +149,7 @@
             left: 0;
             width: 40px;
             height: 3px;
-            background: var(--orange);
+            background: var(--primary-color);
             border-radius: 3px;
             transition: width 0.3s ease;
         }
@@ -171,7 +177,7 @@
 
         .footer-links li::before {
             content: "➤";
-            color: var(--orange);
+            color: var(--primary-color);
             margin-right: 10px;
             font-size: 0.8rem;
             transition: var(--transition);
@@ -190,7 +196,7 @@
         }
 
         .footer-links a:hover {
-            color: var(--orange);
+            color: var(--primary-color);
         }
 
         .footer-contact p {
@@ -204,9 +210,9 @@
 
         .footer-contact i {
             margin-right: 12px;
-            color: var(--orange);
+            color: var(--primary-color);
             width: 20px;
-            background: rgba(255, 107, 0, 0.1);
+            background: rgba(52, 152, 219, 0.1);
             height: 32px;
             width: 32px;
             border-radius: 50%;
@@ -217,7 +223,7 @@
         }
 
         .footer-contact p:hover i {
-            background: var(--orange);
+            background: var(--primary-color);
             color: white;
             transform: rotate(10deg);
         }
@@ -236,7 +242,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--orange);
+            color: var(--primary-color);
             transition: var(--transition);
             text-decoration: none;
             cursor: pointer;
@@ -249,7 +255,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: var(--orange);
+            background: var(--primary-color);
             border-radius: 50%;
             transform: scale(0);
             transition: var(--transition);
@@ -269,7 +275,7 @@
         .social-icon:hover {
             color: var(--white);
             transform: translateY(-5px) rotate(5deg);
-            box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
         }
 
         .footer-newsletter p {
@@ -300,8 +306,8 @@
 
         .newsletter-input:focus {
             outline: none;
-            border-color: var(--orange);
-            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
             transform: translateY(-2px);
         }
 
@@ -313,7 +319,7 @@
             padding: 14px 18px;
             border-radius: 8px;
             border: none;
-            background: var(--orange);
+            background: var(--primary-color);
             color: var(--white);
             font-weight: 600;
             cursor: pointer;
@@ -323,13 +329,13 @@
             justify-content: center;
             gap: 8px;
             font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(255, 107, 0, 0.25);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.25);
         }
 
         .newsletter-btn:hover {
-            background: var(--light-orange);
+            background: var(--secondary-color);
             transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(255, 107, 0, 0.35);
+            box-shadow: 0 7px 15px rgba(52, 152, 219, 0.35);
         }
 
         .newsletter-btn:active {
@@ -384,7 +390,7 @@
         }
 
         .copyright-links a {
-            color: var(--orange);
+            color: var(--primary-color);
             text-decoration: none;
             transition: var(--transition);
             position: relative;
@@ -397,7 +403,7 @@
             left: 0;
             width: 0;
             height: 1px;
-            background: var(--orange);
+            background: var(--primary-color);
             transition: width 0.3s ease;
         }
 
@@ -410,6 +416,7 @@
             gap: 10px;
             margin-top: 1.5rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .payment-icon {
@@ -438,7 +445,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: var(--orange);
+            background: var(--primary-color);
             color: var(--white);
             display: flex;
             align-items: center;
@@ -450,7 +457,7 @@
         }
 
         .back-to-top:hover {
-            background: var(--light-orange);
+            background: var(--secondary-color);
             transform: translateY(-5px) rotate(5deg);
             box-shadow: 0 7px 20px rgba(0, 0, 0, 0.18);
         }
@@ -574,15 +581,15 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-wave"></div>
-        <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-            <i class="fas fa-arrow-up"></i>
+    
+            
         </div>
         <div class="footer-content">
             <div class="footer-about">
-                <div class="footer-logo">
+                <a href="index.php" class="footer-logo">
                     <div class="footer-logo-icon"><i class="fas fa-shipping-fast"></i></div>
                     <span>CourierX</span>
-                </div>
+                </a>
                 <p>Delivering with speed and trust. CourierX provides reliable and fast delivery services worldwide with real-time tracking and premium customer support.</p>
                 <div class="payment-methods">
                     <div class="payment-icon">Visa</div>
@@ -599,7 +606,6 @@
                 <ul>
                     <li><a href="index.php">Home</a></li>
                     <li><a href="track.php">Track Package</a></li>
-                    <li><a href="services.html">Services</a></li>
                     <li><a href="get_shipment_status.php">Delivery Status</a></li>
                 </ul>
             </div>
@@ -612,7 +618,7 @@
                     <p><i class="fas fa-envelope"></i> support@courierx.com</p>
                     <p><i class="fas fa-phone"></i> +92 34567-8900</p>
                     <p><i class="fas fa-map-marker-alt"></i> 123 Delivery Street, Karachi City</p>
-                    <p><i class="fas fa-clock"></i> Mon-Fri: 8AM-8PM, Sat: 9AM-6PM</p>
+                    <p><i class="fas fa-clock"></i> Mon-Frid: 8AM-8PM, Sat: 9AM-6PM</p>
                 </div>
             </div>
             <div class="footer-newsletter">
@@ -632,10 +638,6 @@
         </div>
         <div class="copyright">
             <p>© 2025 CourierX. All rights reserved.</p>
-            <div class="copyright-links">
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="terms.html">Terms of Service</a>
-            </div>
         </div>
     </footer>
 

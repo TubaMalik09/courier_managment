@@ -7,17 +7,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Initialize EmailJS with your Public Key
+            emailjs.init("HyIYJwbIFL40wQdxy"); // Replace with your actual EmailJS Public Key
+        })();
+    </script>
+
     <style>
         :root {
-            --primary-color: #FF6B00;
-            --secondary-color: #FFA94D;
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
             --accent-color: #333333;
             --text-color: #555555;
-            --background-light: #F9F9FB;
+            --background-light: #f5f7fa;
             --background-dark: #FFFFFF;
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --transition-speed: 0.4s;
+            --border-color: #ddd;
+            --input-bg: #f5f5f5;
         }
 
         * {
@@ -32,6 +42,7 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
+             
         }
 
         /* --- Animations --- */
@@ -69,15 +80,15 @@
 
         .card {
             background-color: var(--background-dark);
-            border-radius: 1rem;
+            border-radius: 8px;
             box-shadow: var(--card-shadow);
             padding: 2rem;
             transition: var(--transition-speed);
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
         
         /* --- General Layout --- */
@@ -107,18 +118,19 @@
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
-            height: 5px;
+            height: 4px;
             background: var(--primary-color);
             border-radius: 5px;
         }
 
         /* --- Hero Section --- */
-        .hero {
+         .hero {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: var(--background-dark);
-            padding: 8rem 0;
+            padding: 4rem 0; /* Changed from 8rem 0 to 4rem 0 */
             position: relative;
             overflow: hidden;
+           
         }
         
         .hero::before {
@@ -162,7 +174,7 @@
             display: flex;
             background: rgba(255, 255, 255, 0.2);
             padding: 0.75rem;
-            border-radius: 50px;
+            border-radius: 8px;
             width: 100%;
             max-width: 500px;
             backdrop-filter: blur(10px);
@@ -187,7 +199,7 @@
             color: var(--primary-color);
             border: none;
             padding: 0.75rem 2.5rem;
-            border-radius: 50px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition-speed);
@@ -208,7 +220,7 @@
         .hero-image img {
             width: 100%;
             max-width: 450px;
-            border-radius: 1rem;
+            border-radius: 8px;
             filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
         }
         
@@ -220,7 +232,7 @@
             background: var(--background-dark);
             color: var(--accent-color);
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             transform: translateX(150%);
             transition: transform 0.4s ease;
             z-index: 1002;
@@ -262,7 +274,7 @@
             align-items: center;
             width: 80px;
             height: 80px;
-            background: rgba(255, 107, 0, 0.1);
+            background: rgba(52, 152, 219, 0.1);
             border-radius: 50%;
             transition: var(--transition-speed);
         }
@@ -365,16 +377,17 @@
             color: var(--accent-color);
             display: block;
             margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
         
         .contact-form input,
         .contact-form textarea,
         .contact-form select {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid #ddd;
+            padding: 12px;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
-            background-color: #f5f5f5;
+            background-color: var(--input-bg);
             transition: all var(--transition-speed);
             font-size: 1rem;
             font-family: 'Poppins', sans-serif;
@@ -386,7 +399,7 @@
             outline: none;
             border-color: var(--primary-color);
             background-color: white;
-            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
 
         .contact-form textarea {
@@ -398,66 +411,167 @@
             grid-column: 1 / -1;
             background-color: var(--primary-color);
             color: var(--background-dark);
-            padding: 1rem;
+            padding: 12px;
             border: none;
-            border-radius: 50px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition-speed);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .contact-form button:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: var(--secondary-color);
         }
         
-        .contact-form button:active {
-            transform: translateY(0);
-        }
-
+                /* --- Contact Info Section Styling Improvements --- */
         .contact-info {
             margin-top: 3rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted minmax for better flexibility */
+            gap: 1.8rem; /* Slightly increased gap for better separation */
             text-align: center;
+            justify-content: center; /* Centers the grid tracks within the container */
+            align-items: stretch; /* Makes all cards the same height */
+            max-width: 1000px; /* Limit the max-width of the grid itself */
+            margin-left: auto; /* Center the grid on larger screens */
+            margin-right: auto; /* Center the grid on larger screens */
+            padding: 0 1.5rem; /* Add some padding to the grid container */
         }
 
         .contact-info-card {
-            padding: 1.5rem;
-            border-radius: 1rem;
+            padding: 2.2rem 1.5rem; /* Increased vertical padding even more for more space */
+            border-radius: 12px; /* More rounded corners for a softer look */
             background-color: var(--background-dark);
-            box-shadow: var(--card-shadow);
-            transition: var(--transition-speed);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07); /* Refined subtle shadow */
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother transition */
+            display: flex; /* Use flexbox for internal alignment */
+            flex-direction: column; /* Stack content vertically */
+            justify-content: flex-start; /* Align content to the top within the card */
+            align-items: center; /* Horizontally center content */
+            border: 1px solid rgba(220, 220, 220, 0.5); /* Subtle border */
         }
 
         .contact-info-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.01); /* Smooth lift and slight scale on hover */
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); /* Stronger, more diffused shadow on hover */
         }
 
         .contact-info-card .icon {
-            font-size: 2rem;
+            font-size: 2.5rem; /* Larger icons */
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem; /* More space below icon */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 75px; /* Larger circular background */
+            height: 75px;
+            background-color: rgba(52, 152, 219, 0.1); /* Slightly darker light background */
+            border-radius: 50%;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth icon transitions */
+        }
+
+        .contact-info-card:hover .icon {
+            background-color: var(--primary-color);
+            color: var(--background-dark);
+            transform: rotateY(15deg) scale(1.05); /* Subtle 3D tilt and slight scale on hover, not a full spin */
         }
 
         .contact-info-card h4 {
-            font-size: 1.1rem;
+            font-size: 1.25rem; /* Larger heading */
             color: var(--accent-color);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
         }
 
+        .contact-info-card p {
+            font-size: 0.95rem; /* Standard paragraph text size */
+            color: var(--text-color);
+            line-height: 1.5;
+            margin-bottom: 0.3rem;
+            max-width: 280px; /* Limit paragraph width for readability */
+        }
+        
+        /* Responsive adjustments specific to contact-info */
+        @media (min-width: 993px) {
+            .contact-info {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 950px; 
+            }
+        }
+
+        @media (max-width: 992px) {
+            .contact-info {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Allow 2 or 1 column, slightly smaller min-width */
+                gap: 1.5rem;
+                padding: 0 1.5rem;
+            }
+            .contact-info-card {
+                padding: 2rem 1.2rem;
+            }
+            .contact-info-card .icon {
+                font-size: 2.3rem;
+                width: 70px;
+                height: 70px;
+                margin-bottom: 1.2rem;
+            }
+            .contact-info-card h4 {
+                font-size: 1.2rem;
+            }
+            .contact-info-card p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-info {
+                grid-template-columns: 1fr; /* Stack cards vertically on smaller tablets and mobiles */
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+            .contact-info-card {
+                padding: 1.8rem 1rem;
+            }
+            .contact-info-card .icon {
+                font-size: 2rem;
+                width: 65px;
+                height: 65px;
+                margin-bottom: 1rem;
+            }
+            .contact-info-card h4 {
+                font-size: 1.1rem;
+            }
+            .contact-info-card p {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-info-card {
+                padding: 1.5rem 0.8rem;
+            }
+            .contact-info-card .icon {
+                font-size: 1.8rem;
+                width: 55px;
+                height: 55px;
+            }
+            .contact-info-card h4 {
+                font-size: 1rem;
+            }
+            .contact-info-card p {
+                font-size: 0.8rem;
+                max-width: unset; 
+            }
+        }
         /* --- Live Tracking Map --- */
         .live-map-section {
             background-color: #eef1f6;
         }
 
         .map-container {
-            border-radius: 1rem;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             position: relative;
             min-height: 500px;
         }
@@ -465,7 +579,7 @@
         #map {
             width: 100%;
             height: 500px;
-            border-radius: 1rem;
+            border-radius: 8px;
         }
         
         .map-overlay {
@@ -515,7 +629,7 @@
         }
         
         .map-btn:hover {
-            background: var(--accent-color);
+            background: var(--secondary-color);
         }
 
         /* --- Shipping Calculator --- */
@@ -545,15 +659,16 @@
             color: var(--accent-color);
             display: block;
             margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
         
         .calculator-form input,
         .calculator-form select {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid #ddd;
+            padding: 12px;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
-            background-color: #f5f5f5;
+            background-color: var(--input-bg);
             transition: all var(--transition-speed);
             font-size: 1rem;
         }
@@ -563,32 +678,26 @@
             outline: none;
             border-color: var(--primary-color);
             background-color: white;
-            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
 
         .calculator-form button {
             grid-column: 1 / -1;
             background-color: var(--primary-color);
             color: var(--background-dark);
-            padding: 1rem;
+            padding: 12px;
             border: none;
-            border-radius: 50px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition-speed);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .calculator-form button:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: var(--secondary-color);
         }
         
-        .calculator-form button:active {
-            transform: translateY(0);
-        }
-
         .price-display {
             font-size: 2.5rem;
             font-weight: 700;
@@ -597,7 +706,7 @@
             text-align: center;
             padding: 1.5rem;
             background: white;
-            border-radius: 1rem;
+            border-radius: 8px;
             box-shadow: var(--card-shadow);
             display: none;
         }
@@ -690,19 +799,17 @@
         .cta-button {
             background-color: var(--background-dark);
             color: var(--primary-color);
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
+            padding: 12px 2.5rem;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             transition: var(--transition-speed);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
         }
         
         .cta-button:hover {
             background-color: var(--accent-color);
             color: var(--background-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         
         /* --- Responsive Design --- */
@@ -738,7 +845,7 @@
             .tracking-widget {
                 flex-direction: column;
                 padding: 1rem;
-                border-radius: 1rem;
+                border-radius: 8px;
             }
             
             .tracking-widget input {
@@ -753,6 +860,116 @@
             
             section {
                 padding: 4rem 0;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+        }
+                /* --- Responsive Design Adjustments for Hero Section --- */
+        @media (max-width: 992px) {
+            .hero .container {
+                flex-direction: column;
+                text-align: center;
+                /* Add padding to prevent content from sticking to edges on tablets */
+                padding: 0 1rem; 
+            }
+            
+            .hero-content {
+                width: 100%; /* Ensure content takes full width */
+                max-width: 600px; /* Limit width for better readability */
+                margin: 0 auto; /* Center the content block */
+            }
+
+            .hero-content h1 {
+                font-size: clamp(2rem, 5vw, 3.5rem); /* Adjust font size for tablets */
+            }
+
+            .hero-content p {
+                font-size: clamp(0.95rem, 1.8vw, 1.1rem); /* Adjust font size for tablets */
+            }
+
+            .hero-image {
+                margin-top: 3rem;
+                width: 80%; /* Reduce image width to leave more space */
+                max-width: 400px; /* Set a max-width for consistency */
+                margin-left: auto; /* Center the image */
+                margin-right: auto; /* Center the image */
+            }
+            
+            .tracking-widget {
+                max-width: 450px; /* Adjust max-width for the tracking widget */
+                margin-left: auto; /* Center the tracking widget */
+                margin-right: auto; /* Center the tracking widget */
+            }
+
+            .calculator-form,
+            .contact-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps-container::before {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 0; /* Adjust hero padding for smaller tablets */
+            }
+            .hero-content h1 {
+                font-size: clamp(1.8rem, 6vw, 3rem); /* Further adjust font size */
+            }
+            .hero-content p {
+                font-size: clamp(0.9rem, 2vw, 1rem); /* Further adjust font size */
+            }
+            .hero-image {
+                margin-top: 2.5rem; /* Reduce top margin for image */
+                width: 90%; /* Make image a bit wider on smaller tablets */
+                max-width: 350px;
+            }
+            .map-controls {
+                bottom: 10px;
+                left: 10px;
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 4rem 0; /* Even less padding for mobile */
+            }
+            .hero-content h1 {
+                font-size: clamp(1.6rem, 7vw, 2.5rem); /* Mobile font size for heading */
+            }
+            .hero-content p {
+                font-size: clamp(0.85rem, 2.5vw, 0.95rem); /* Mobile font size for paragraph */
+            }
+            .tracking-widget {
+                flex-direction: column;
+                padding: 1rem;
+                border-radius: 8px;
+                max-width: 100%; /* Allow tracking widget to take full width */
+            }
+            
+            .tracking-widget input {
+                text-align: center;
+                margin-bottom: 1rem;
+                padding: 1rem;
+            }
+            
+            .tracking-widget button {
+                width: 100%;
+            }
+            
+            .hero-image {
+                margin-top: 2rem; /* Reduce margin more for mobile */
+                width: 100%; /* Allow image to take full width on smallest screens */
+                max-width: 300px; /* Keep a reasonable max-width */
+            }
+            
+            section {
+                padding: 3rem 0; /* Less section padding for mobile */
             }
             
             .card {
@@ -779,7 +996,7 @@
                 </div>
             </div>
             <div class="hero-image fade-in-on-scroll" style="--scroll-animate-delay: 0.6s;">
-                <img src="https://www.lalamove.com/hs-fs/hubfs/Easy-Booking-Process-for-Delivery.png?width=915&height=551&name=Easy-Booking-Process-for-Delivery.png">
+                <img src="https://img.freepik.com/free-vector/courier-carrying-order-delivering-parcel-express-cargo-delivery-service-air-freight-logistics-distribution-global-postal-mail-concept-pinkish-coral-bluevector-isolated-illustration_335657-1730.jpg">
             </div>
         </div>
     </section>
@@ -917,8 +1134,7 @@
     </div>
 </section>
 
-    <!-- Contact Form Section -->
-    <section id="contact" class="contact-section">
+      <section id="contact" class="contact-section">
         <div class="container contact-container fade-in-on-scroll">
             <h2 class="section-title">Get In Touch With Us</h2>
             <form class="contact-form card" id="contactForm">
@@ -982,13 +1198,7 @@
         </div>
     </section>
 
-    <section class="cta-section">
-        <div class="container cta-content fade-in-on-scroll">
-            <h2>Ready to Experience Seamless Logistics in Karachi?</h2>
-            <p style="--scroll-animate-delay: 0.1s;">Sign up today and take control of your courier management.</p>
-            <a href="#" class="cta-button" style="--scroll-animate-delay: 0.2s;">Sign Up for Free</a>
-        </div>
-    </section>
+    
     <?php include_once("footer.php");?>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -1308,99 +1518,131 @@
                 }, 1500);
             });
 
-            // Contact form functionality (rest of your existing contact form code)
-            const contactForm = document.getElementById('contactForm');
-            const contactBtn = document.getElementById('contactBtn');
-            const contactBtnText = document.getElementById('contactBtnText');
-            const contactLoader = document.getElementById('contactLoader');
-            
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const isNameValid = validateField('name', 'nameError', validateName, 'Please enter a valid name (letters and spaces only, min 2 chars)');
-                const isEmailValid = validateField('email', 'emailError', validateEmail, 'Please enter a valid email address');
-                const isPhoneValid = validateField('phone', 'phoneError', validatePhone, 'Please enter a valid phone number (digits only, with optional +, -, or parentheses)');
-                const isSubjectValid = validateField('subject', 'subjectError', validateNotEmpty, 'Please select a subject');
-                const isMessageValid = validateField('message', 'messageError', validateNotEmpty, 'Message is required');
-                
-                if (!isNameValid || !isEmailValid || !isPhoneValid || !isSubjectValid || !isMessageValid) {
-                    showNotification('Please fix the errors in the form', 'error');
-                    return;
-                }
-                
-                contactBtnText.style.display = 'none';
-                contactLoader.style.display = 'inline-block';
-                contactBtn.disabled = true;
-                
-                const formData = new FormData(contactForm);
+            // --- START: MODIFIED Contact form functionality ---
+    const contactForm = document.getElementById('contactForm');
+    const contactBtn = document.getElementById('contactBtn');
+    const contactBtnText = document.getElementById('contactBtnText');
+    const contactLoader = document.getElementById('contactLoader');
 
-                try {
-                    const response = await fetch('submit_contact.php', {
-                        method: 'POST',
-                        body: formData
-                    });
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-                    const result = await response.json();
+        // Client-side Validation
+        const isNameValid = validateField('name', 'nameError', validateName, 'Please enter a valid name (letters and spaces only, min 2 chars)');
+        const isEmailValid = validateField('email', 'emailError', validateEmail, 'Please enter a valid email address');
+        const isPhoneValid = validateField('phone', 'phoneError', validatePhone, 'Please enter a valid phone number (digits only, with optional +, -, or parentheses)');
+        const isSubjectValid = validateField('subject', 'subjectError', validateNotEmpty, 'Please select a subject');
+        const isMessageValid = validateField('message', 'messageError', validateNotEmpty, 'Message is required');
 
-                    if (result.success) {
-                        contactForm.reset();
-                        
-                        document.querySelectorAll('.form-group').forEach(group => {
-                            group.classList.remove('error', 'success');
-                        });
-                        document.querySelectorAll('.error-message').forEach(error => {
-                            error.style.display = 'none';
-                        });
-                        
-                        Swal.fire({
-                            title: 'Success!',
-                            html: result.message,
-                            icon: 'success',
-                            confirmButtonText: 'OK',
-                            confirmButtonColor: '#FF6B00',
-                            customClass: {
-                                popup: 'swal-custom-popup',
-                                title: 'swal-custom-title',
-                                content: 'swal-custom-content',
-                                confirmButton: 'swal-custom-button'
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            html: result.message,
-                            icon: 'error',
-                            confirmButtonText: 'Try Again',
-                            confirmButtonColor: '#FF6B00',
-                            customClass: {
-                                popup: 'swal-custom-popup',
-                                title: 'swal-custom-title',
-                                content: 'swal-custom-content',
-                                confirmButton: 'swal-custom-button'
-                            }
-                        });
-                    }
-                } catch (error) {
-                    console.error('Fetch error:', error);
-                    Swal.fire({
-                        title: 'Network Error!',
-                        html: 'Could not connect to the server. Please try again later.',
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#FF6B00',
-                        customClass: {
-                            popup: 'swal-custom-popup',
-                            title: 'swal-custom-title',
-                            content: 'swal-custom-content',
-                            confirmButton: 'swal-custom-button'
-                        }
-                    });
-                } finally {
-                    contactBtnText.style.display = 'inline';
-                    contactLoader.style.display = 'none';
-                    contactBtn.disabled = false;
-                }
+        if (!isNameValid || !isEmailValid || !isPhoneValid || !isSubjectValid || !isMessageValid) {
+            showNotification('Please fix the errors in the form', 'error');
+            return;
+        }
+
+        contactBtnText.style.display = 'none';
+        contactLoader.style.display = 'inline-block';
+        contactBtn.disabled = true;
+
+        const formData = new FormData(contactForm); // For PHP submission
+        const templateParams = { // For EmailJS submission
+            from_name: formData.get('name'),
+            from_email: formData.get('email'),
+            phone: formData.get('phone'),
+            subject: formData.get('subject'),
+            message: formData.get('message'),
+            to_name: 'CourierX Admin' // Or the recipient's name
+        };
+
+        let phpSuccess = false;
+        let emailjsSuccess = false;
+        let phpMessage = '';
+        let emailjsMessage = '';
+
+        try {
+            // 1. Send data to PHP script for database insertion
+            const phpResponse = await fetch('submit_contact.php', {
+                method: 'POST',
+                body: formData
             });
+            const phpResult = await phpResponse.json();
+            if (phpResult.success) {
+                phpSuccess = true;
+                phpMessage = phpResult.message;
+            } else {
+                phpMessage = phpResult.message;
+            }
+
+            // 2. Send email using EmailJS
+            const emailJsResponse = await emailjs.send("service_1gfzv4v", "template_t5bs24f", templateParams); // Replace with your actual EmailJS Service ID and Template ID
+            if (emailJsResponse.status === 200) {
+                emailjsSuccess = true;
+                emailjsMessage = 'Email sent successfully!';
+            } else {
+                emailjsMessage = `Email sending failed: ${emailJsResponse.text || 'Unknown error'}`;
+            }
+
+        } catch (error) {
+            console.error('Submission error:', error);
+            phpMessage = phpMessage || 'Network error submitting to database.';
+            emailjsMessage = emailjsMessage || `Network error sending email: ${error.message}`;
+        } finally {
+            contactBtnText.style.display = 'inline';
+            contactLoader.style.display = 'none';
+            contactBtn.disabled = false;
+
+            // Determine overall success and show appropriate SweetAlert
+            if (phpSuccess && emailjsSuccess) {
+                contactForm.reset();
+                document.querySelectorAll('.form-group').forEach(group => {
+                    group.classList.remove('error', 'success');
+                });
+                document.querySelectorAll('.error-message').forEach(error => {
+                    error.style.display = 'none';
+                });
+
+                Swal.fire({
+                    title: 'Success!',
+                    html: 'Your message has been sent and saved!',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3498db',
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        content: 'swal-custom-content',
+                        confirmButton: 'swal-custom-button'
+                    }
+                });
+            } else {
+                let errorMessage = 'There was an issue:';
+                if (!phpSuccess) {
+                    errorMessage += `<br>- Database Save: ${phpMessage}`;
+                }
+                if (!emailjsSuccess) {
+                    errorMessage += `<br>- Email Send: ${emailjsMessage}`;
+                }
+                if (phpSuccess && !emailjsSuccess) {
+                    errorMessage = 'Message saved to database, but email failed to send.';
+                } else if (!phpSuccess && emailjsSuccess) {
+                    errorMessage = 'Email sent successfully, but message failed to save to database.';
+                }
+
+                Swal.fire({
+                    title: 'Error!',
+                    html: errorMessage,
+                    icon: 'error',
+                    confirmButtonText: 'Try Again',
+                    confirmButtonColor: '#3498db',
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        content: 'swal-custom-content',
+                        confirmButton: 'swal-custom-button'
+                    }
+                });
+            }
+        }
+    });
 
             // Add real-time validation and input restrictions (rest of your existing validation setup)
             function setupInputValidation() {

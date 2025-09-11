@@ -1,3 +1,4 @@
+
 <?php
 // track_shipment.php
 
@@ -47,10 +48,9 @@ $conn->close();
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Your CSS from the provided HTML goes here */
         :root {
-            --orange: #FF6B00;
-            --light-orange: #FFA94D;
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
             --white: #FFFFFF;
             --light-grey: #F5F5F5;
             --dark-grey: #333333;
@@ -89,7 +89,7 @@ $conn->close();
 
         .status-hero {
             min-height: 40vh;
-            background: linear-gradient(135deg, var(--orange), var(--light-orange));
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -149,7 +149,7 @@ $conn->close();
             transform: translateX(-50%);
             width: 60px;
             height: 4px;
-            background: var(--orange);
+            background: var(--primary-color);
             border-radius: 2px;
         }
 
@@ -170,13 +170,13 @@ $conn->close();
             flex-direction: column;
             align-items: center;
             text-align: center;
-            border-left: 5px solid var(--orange);
+            border-left: 5px solid var(--primary-color);
             animation: fadeIn 0.8s ease-out;
         }
 
         .status-card .icon {
             font-size: 3rem;
-            color: var(--orange);
+            color: var(--primary-color);
             margin-bottom: 1rem;
         }
 
@@ -213,8 +213,8 @@ $conn->close();
         }
 
         .status-badge.processing {
-            background-color: rgba(33, 150, 243, 0.1);
-            color: #2196F3;
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary-color);
         }
 
         .status-badge.shipped {
@@ -245,7 +245,7 @@ $conn->close();
             background: var(--light-grey);
             padding: 1rem;
             border-radius: 0.75rem;
-            border-left: 3px solid var(--light-orange);
+            border-left: 3px solid var(--primary-color);
         }
 
         .detail-item strong {
@@ -291,7 +291,7 @@ $conn->close();
     </style>
 </head>
 <body>
-        <?php include_once("navbar.php"); ?>
+    <?php include_once("navbar.php"); ?>
     <section class="status-hero">
         <h2 class="status-title">Shipment Status</h2>
         <?php if ($shipment): ?>
@@ -406,6 +406,6 @@ $conn->close();
             <?php endif; ?>
         </div>
     </section>
-        <?php include_once("footer.php"); ?>
+    <?php include_once("footer.php"); ?>
 </body>
 </html>

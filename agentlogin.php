@@ -256,7 +256,7 @@ session_start(); // Start the session at the very beginning
         </form>
         
         <div class="forgot-password">
-            <a href="#">Forgot Password?</a>
+          
         </div>
     </div>
     

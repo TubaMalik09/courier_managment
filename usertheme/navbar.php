@@ -3,39 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CourierX - Enhanced Navbar</title>
+    <title>CourierX - Fixed Navbar</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom SVG icons to replace Font Awesome */
-        html {
-            scroll-behavior: smooth;
-        }
-        .icon {
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            background-size: cover;
-        }
-        .icon-user {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-6.627 0-12 5.373-12 12h24c0-6.627-5.373-12-12-12z'/%3E%3C/svg%3E");
-        }
-        .icon-search {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z'/%3E%3C/svg%3E");
-        }
-        .icon-close {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.090 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z'/%3E%3C/svg%3E");
-        }
-        .icon-bars {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z'/%3E%3C/svg%3E");
-        }
-        .icon-caret {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z'/%3E%3C/svg%3E");
-        }
-        
         :root {
-            --orange: #FF6B00;
-            --light-orange: #FFA94D;
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
             --white: #FFFFFF;
             --light-grey: #F5F5F5;
             --dark-grey: #333333;
@@ -43,8 +17,6 @@
             --shadow: rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
             --navbar-height: 70px;
-            --focus-outline: 2px solid var(--white);
-            --focus-outline-offset: 2px;
         }
 
         * {
@@ -62,47 +34,6 @@
             flex-direction: column;
         }
 
-        /* Animation for logo */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
-
-        /* Skip to content link for accessibility */
-        .skip-to-content {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--orange);
-            color: white;
-            padding: 8px;
-            z-index: 10000;
-            transition: top 0.3s;
-        }
-
-        .skip-to-content:focus {
-            top: 0;
-        }
-
-        /* Focus styles for accessibility */
-        a:focus,
-        button:focus,
-        input:focus {
-            outline: var(--focus-outline);
-            outline-offset: var(--focus-outline-offset);
-        }
-
         /* Navigation Styles */
         .navbar {
             position: sticky;
@@ -112,9 +43,7 @@
             align-items: center;
             padding: 0.8rem 2rem;
             z-index: 1000;
-            background: rgba(255, 107, 0, 0.98);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: var(--primary-color);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
             height: var(--navbar-height);
         }
@@ -144,32 +73,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--orange);
+            color: var(--primary-color);
             font-size: 1.1rem;
         }
 
-        .footer-logo-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--orange);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.2rem;
-            animation: pulse 2s infinite;
-        }
-
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
-
+        /* Navigation Menu */
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 1.8rem;
             align-items: center;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .nav-menu a {
@@ -177,36 +91,20 @@
             text-decoration: none;
             font-weight: 500;
             position: relative;
-            padding: 0.5rem 0;
+            padding: 0.8rem 1.2rem;
             transition: var(--transition);
             cursor: pointer;
             font-size: 0.95rem;
+            border-radius: 4px;
         }
 
         .nav-menu a:hover {
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .nav-menu a.active {
             font-weight: 600;
-        }
-
-        .nav-menu a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 0 10px var(--white);
-        }
-
-        .nav-buttons {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .mobile-menu-btn {
@@ -239,7 +137,7 @@
                 top: var(--navbar-height);
                 left: -100%;
                 flex-direction: column;
-                background: rgba(255, 107, 0, 0.98);
+                background: var(--primary-color);
                 width: 100%;
                 height: calc(100vh - var(--navbar-height));
                 text-align: left;
@@ -249,17 +147,17 @@
                 z-index: 999;
                 gap: 1.5rem;
                 overflow-y: auto;
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
+                margin: 0;
             }
 
             .nav-menu.active {
                 left: 0;
-                animation: slideIn 0.3s ease forwards;
             }
 
-            .nav-buttons {
-                display: none;
+            .nav-menu a {
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
             }
 
             .mobile-menu-btn {
@@ -314,135 +212,66 @@
             }
         }
         
-        /* Search Bar */
-        .search-form {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2rem;
-            padding: 0 0.5rem;
-            transition: var(--transition);
-        }
-
-        .search-form:hover, .search-form:focus-within {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .search-input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--white);
-            padding: 0.5rem;
-            width: 150px;
-            transition: width 0.3s ease;
-        }
-
-        .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .search-btn {
-            background: none;
-            border: none;
-            color: var(--white);
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
         
-        /* Mobile adjustments for new features */
-        @media (max-width: 768px) {
-            .search-form {
-                margin: 1rem 0;
-                width: 100%;
-            }
-            
-            .search-input {
-                width: 100%;
-            }
-        }
-        
-        /* Loading animation for search */
-        .search-loading {
-            position: relative;
-        }
-        
-        .search-loading::after {
-            content: "";
-            position: absolute;
-            right: 35px;
-            top: 50%;
-            width: 16px;
-            height: 16px;
-            margin-top: -8px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
-    <!-- Skip to content link for accessibility -->
-    <a href="#main-content" class="skip-to-content">Skip to main content</a>
-    
     <!-- Navigation -->
     <nav class="navbar" aria-label="Main navigation">
-        <div class="logo" id="logo" role="button" aria-label="CourierX Home">
-            <div class="footer-logo-icon pulse-animation" aria-hidden="true">
+        <a href="index.php" class="logo" id="logo" aria-label="CourierX Home">
+            <div class="logo-icon" aria-hidden="true">
                 <i class="fas fa-shipping-fast"></i>
             </div>
             <span>CourierX</span>
-        </div>
+        </a>
         
         <ul class="nav-menu" id="navMenu" role="menubar">
             <button class="close-menu" id="closeMenu" aria-label="Close menu">
-                <span class="icon icon-close" aria-hidden="true"></span>
+                <i class="fas fa-times"></i>
             </button>
             
-            <li role="none"><a href="index.php" class="active" role="menuitem">Home</a></li>
-            <li role="none"><a href="track.php" role="menuitem">Track</a></li>
-            <li role="none"><a href="track_shipment.php" role="menuitem">Status</a></li>
-          
+            <li role="none"><a href="index.php" id="home-link" role="menuitem">Home</a></li>
+            <li role="none"><a href="track.php" id="track-link" role="menuitem">Track</a></li>
+            <li role="none"><a href="track_shipment.php" id="status-link" role="menuitem">Status</a></li>
         </ul>
         
-        <!-- Desktop buttons -->
-        <div class="nav-buttons">
-            <!-- Search Bar -->
-            <form class="search-form" action="/search" method="get" role="search">
-               
-                    
-                </button>
-            </form>
-        </div>
-        
         <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">
-            <span class="icon icon-bars" aria-hidden="true"></span>
+            <i class="fas fa-bars"></i>
         </button>
     </nav>
 
-
+   
 
     <script>
+        // Function to set active page based on current URL
+        function setActivePage() {
+            // Get current page URL
+            const currentPage = window.location.pathname.split('/').pop() || 'index.php';
+            
+            // Remove active class from all links
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to the current page link
+            if (currentPage === 'index.php') {
+                document.getElementById('home-link').classList.add('active');
+            } else if (currentPage === 'track.php') {
+                document.getElementById('track-link').classList.add('active');
+            } else if (currentPage === 'track_shipment.php') {
+                document.getElementById('status-link').classList.add('active');
+            }
+        }
+
         // Mobile menu toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // DOM Elements
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const closeMenu = document.getElementById('closeMenu');
             const navMenu = document.getElementById('navMenu');
-            const logo = document.getElementById('logo');
-            const searchForm = document.querySelector('.search-form');
-            const searchInput = document.querySelector('.search-input');
             
-            // Event Listeners
+            // Set the active page on load
+            setActivePage();
+            
             if (mobileMenuBtn && navMenu) {
                 mobileMenuBtn.addEventListener('click', function() {
                     const expanded = this.getAttribute('aria-expanded') === 'true' || false;
@@ -467,6 +296,9 @@
                     mobileMenuBtn.setAttribute('aria-expanded', 'false');
                     navMenu.classList.remove('active');
                     document.body.style.overflow = 'auto';
+                    
+                    // Update active state when a link is clicked
+                    setTimeout(setActivePage, 100);
                 });
             });
             
@@ -481,27 +313,6 @@
                 }
             });
             
-            // Navigation handlers
-            logo.addEventListener('click', function() { navigateTo('index.html'); });
-            
-            // Search functionality
-            if (searchForm) {
-                searchForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    if (searchInput.value.trim()) {
-                        // Add loading animation
-                        searchForm.classList.add('search-loading');
-                        
-                        // Simulate search
-                        setTimeout(function() {
-                            searchForm.classList.remove('search-loading');
-                            alert('Searching for: ' + searchInput.value);
-                            searchInput.value = '';
-                        }, 1000);
-                    }
-                });
-            }
-            
             // Keyboard navigation improvements
             document.addEventListener('keydown', function(e) {
                 // Close mobile menu on Escape key
@@ -512,11 +323,6 @@
                 }
             });
         });
-        
-        // Navigation function
-        function navigateTo(url) {
-            window.location.href = url;
-        }
     </script>
 </body>
 </html>
