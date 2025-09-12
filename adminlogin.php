@@ -114,7 +114,6 @@
 
 <?php 
 include_once("connection.php");
-session_start();
 if(isset($_POST["btn"])){
     $e = $_POST["email"];
     $p = $_POST["password"];

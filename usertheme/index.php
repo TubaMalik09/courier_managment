@@ -1117,15 +1117,10 @@
             <option value="Faisalabad"></option>
             <option value="Rawalpindi"></option>
             <option value="Hyderabad"></option>
-            <option value="Sialkot"></option>
+           <option value="Sialkot"></option>
             <option value="Gujranwala"></option>
-            <option value="Sukkur"></option>
-            <option value="Bahawalpur"></option>
-            <option value="Sargodha"></option>
-            <option value="Shekhupura"></option>
-            <option value="Mardan"></option>
-            <option value="Larkana"></option>
-            <option value="Kasur"></option>
+            <option value="Sukkur"></opion>
+        
             <!-- Add more Pakistani cities here -->
         </datalist>
         <div id="priceDisplay" class="price-display">

@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+include_once("../connection.php")
+?>
 <html lang="en">
 
 <head>
@@ -186,7 +188,8 @@
     </script>
 </head>
 
-<body> <?php include_once("navbar.php") ?> <form action="Recipet-courier.php" method="post">
+<body> 
+<form action="Recipet-courier.php" method="post">
         <h1>Courier Booking Form</h1> <!-- Sender Info -->
         <div class="section">
             <h2>Sender Information</h2> <label for="sender_name">Name</label> <input type="text" id="sender_name" name="sender_name" required> <label for="sender_email">Email</label> <input type="email" id="sender_email" name="sender_email" required> <label for="sender_phone">Phone Number</label> <input type="tel" id="sender_phone" name="sender_phone" required> <label for="sender_address">Address</label> <textarea id="sender_address" name="sender_address" rows="3" required></textarea>
