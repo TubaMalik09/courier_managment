@@ -1,5 +1,8 @@
 <?php
 include_once("../connection.php");
+if (!isset($_SESSION["userName"])){
+    header("Location: ../adminlogin.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +57,63 @@ include_once("../connection.php");
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-
+<?php
+if ($_SESSION["role"]=="agent"){ ?>
+  <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-solid fa-truck"></i>   
+            <span>Courier</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+               
+                <a class="collapse-item" href="CreateCourier.php">Add</a>
+                <a class="collapse-item" href="ShowCourier.php">Show</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo0"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-solid fa-building"></i>
+            <span>Branch</span>
+        </a>
+        <div id="collapseTwo0" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+               
+               
+                <a class="collapse-item" href="ShowBranch.php">Show</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link collapsed" href="#collapseTwoContact" data-toggle="collapse" data-target="#collapseTwoContact" aria-expanded="true" aria-controls="collapseTwoContact">
+        <i class="fa-solid fa-address-card"></i>
+        <span>Contact us</span>
+    </a>
+    <div id="collapseTwoContact" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="ShowContact.php">Show</a>
+        </div>
+    </div>
+</li>
+<li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo5"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fa-solid fa-database"></i>
+            <span>Our Services</span>
+        </a>
+        <div id="collapseTwo5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+            
+                <a class="collapse-item" href="ShowServices.php">Show</a>
+            </div>
+        </div>
+    </li>
+<?php }
+else {
+?>
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -183,7 +242,7 @@ include_once("../connection.php");
             </div>
         </div>
     </li>
-
+<?php } ?>
     <!-- Nav Item - Utilities Collapse Menu -->
   
 
@@ -273,7 +332,7 @@ include_once("../connection.php");
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">E Project</span>
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["userName"]; ?></span>
                         <img class="img-profile rounded-circle"
                             src="img/undraw_profile.svg">
                     </a>
@@ -284,14 +343,7 @@ include_once("../connection.php");
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Settings
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Activity Log
-                        </a>
+                       
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="logout.php" >
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

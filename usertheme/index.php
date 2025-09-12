@@ -996,7 +996,7 @@
                 </div>
             </div>
             <div class="hero-image fade-in-on-scroll" style="--scroll-animate-delay: 0.6s;">
-                <img src="https://img.freepik.com/free-vector/courier-carrying-order-delivering-parcel-express-cargo-delivery-service-air-freight-logistics-distribution-global-postal-mail-concept-pinkish-coral-bluevector-isolated-illustration_335657-1730.jpg">
+                <img src="img.jpg">
             </div>
         </div>
     </section>

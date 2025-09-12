@@ -644,10 +644,7 @@
                 return;
             }
            
-            if (!numberToTrack.startsWith('CX') || numberToTrack.length !== 11) {
-                showNotification('Please enter a valid consignment number (e.g., CX123456789)', 'error');
-                return;
-            }
+         
             
             // Save to recent searches
             saveToRecentSearches(numberToTrack);

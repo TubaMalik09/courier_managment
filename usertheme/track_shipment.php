@@ -1,4 +1,3 @@
-
 <?php
 // track_shipment.php
 
@@ -231,7 +230,7 @@ $conn->close();
             background-color: rgba(244, 67, 54, 0.1);
             color: var(--error);
         }
-        
+
         .details-grid {
             margin-top: 2rem;
             width: 100%;
@@ -259,7 +258,7 @@ $conn->close();
             font-size: 1rem;
             color: var(--medium-grey);
         }
-        
+
         .error-message {
             color: var(--error);
             font-weight: 600;
@@ -336,14 +335,8 @@ $conn->close();
                             <strong>Sender Email:</strong>
                             <span><?php echo htmlspecialchars($shipment['sender-email']); ?></span>
                         </div>
-                        <div class="detail-item">
-                            <strong>Sender Phone:</strong>
-                            <span><?php echo htmlspecialchars($shipment['sender-phone']); ?></span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Sender Address:</strong>
-                            <span><?php echo htmlspecialchars($shipment['sender-address']); ?></span>
-                        </div>
+                        <!-- Removed Sender Phone -->
+                        <!-- Removed Sender Address -->
                         <div class="detail-item">
                             <strong>Receiver Name:</strong>
                             <span><?php echo htmlspecialchars($shipment['receiver-name']); ?></span>
@@ -352,14 +345,8 @@ $conn->close();
                             <strong>Receiver Email:</strong>
                             <span><?php echo htmlspecialchars($shipment['receiver-email']); ?></span>
                         </div>
-                        <div class="detail-item">
-                            <strong>Receiver Phone:</strong>
-                            <span><?php echo htmlspecialchars($shipment['receiver-phone']); ?></span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Receiver Address:</strong>
-                            <span><?php echo htmlspecialchars($shipment['receiver-address']); ?></span>
-                        </div>
+                        <!-- Removed Receiver Phone -->
+                        <!-- Removed Receiver Address -->
                         <div class="detail-item">
                             <strong>Parcel Info:</strong>
                             <span><?php echo htmlspecialchars($shipment['parcel-info']); ?></span>

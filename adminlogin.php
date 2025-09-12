@@ -125,9 +125,10 @@ if(mysqli_num_rows($run) == 1){
     $data = mysqli_fetch_array($run);
     $_SESSION["userId"] = $data[0];
     $_SESSION["userName"] = $data[1];
+    $_SESSION["role"]="admin";
    echo" <script>
     alert('login Successful');
-    window.location.href=' admin/index.php';
+    window.location.href='admin/index.php';
     </script>";
 
 }

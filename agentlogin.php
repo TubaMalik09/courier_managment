@@ -1,5 +1,86 @@
 <?php
 session_start(); // Start the session at the very beginning
+
+// Database connection details
+$servername = "localhost";
+$username_db = "root"; // Your database username
+$password_db = "";     // Your database password (leave empty if no password)
+$dbname = "cms";       // Your database name
+
+// Create connection
+$conn = new mysqli($servername, $username_db, $password_db, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    error_log("Database Connection failed: " . $conn->connect_error);
+    $_SESSION['error_message'] = "A server error occurred. Please try again later.";
+    header("Location: agentlogin.php");
+    exit();
+}
+
+// Function to sanitize input data
+function sanitize_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    return $data;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = sanitize_input($_POST['username']); // Matches 'name="username"' in form
+    $password = sanitize_input($_POST['password']);
+
+    // Input validation (server-side)
+    if (empty($username) || empty($password)) {
+        $_SESSION['error_message'] = "Please enter both username and password.";
+        header("Location: agentlogin.php");
+        exit();
+    }
+
+    // Prepare a SQL statement to prevent SQL injection
+    // Using 'name' column for username as per your DB screenshot and form naming
+    $stmt = $conn->prepare("SELECT id, name, password FROM agent WHERE name = ?");
+
+    if (!$stmt) {
+        error_log("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        $_SESSION['error_message'] = "A server error occurred during query preparation.";
+        header("Location: agentlogin.php");
+        exit();
+    }
+
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        
+        // **IMPORTANT: THIS IS STILL PLAIN TEXT PASSWORD COMPARISON.
+        // FOR PRODUCTION, YOU MUST HASH PASSWORDS DURING REGISTRATION
+        // AND USE password_verify() HERE.**
+        if ($password === $row['password']) { // Compare submitted password with stored plain text password
+            $_SESSION['agent_id'] = $row['id'];
+            $_SESSION['userName'] = $row['name']; 
+            $_SESSION['logged_in'] = true;
+            $_SESSION["role"] ="agent";
+
+            header("Location: Admin/index.php");
+            exit();
+        } else {
+            $_SESSION['error_message'] = "Invalid username or password.";
+            header("Location: agentlogin.php");
+            exit();
+        }
+    } else {
+        $_SESSION['error_message'] = "Invalid username or password.";
+        header("Location: agentlogin.php");
+        exit();
+    }
+
+    $stmt->close();
+}
+// Do NOT close connection here if it's reused. Better to close at end of script or in a global shutdown.
+// $conn->close(); // If you want to close it here, ensure it's not needed by other includes.
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -235,8 +316,7 @@ session_start(); // Start the session at the very beginning
             <p>Access your control panel</p>
         </div>
         
-        <!-- Form now submits to login_process.php -->
-        <form id="loginForm" action="login_process.php" method="POST"> 
+        <form id="loginForm" action="" method="POST"> 
             <div class="input-group">
                 <i class="fas fa-user"></i>
                 <input type="text" id="username" name="username" placeholder="Username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
@@ -259,7 +339,7 @@ session_start(); // Start the session at the very beginning
           
         </div>
     </div>
-    
+
     <div class="notification" id="notification">
         <span id="notification-message"></span>
     </div>
@@ -267,7 +347,7 @@ session_start(); // Start the session at the very beginning
     <script>
         // Toggle password visibility
         const togglePassword = document.getElementById('togglePassword');
-        const passwordField = document.getElementById('password'); // Renamed to avoid conflict
+        const passwordField = document.getElementById('password');
 
         togglePassword.addEventListener('click', function() {
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -276,7 +356,7 @@ session_start(); // Start the session at the very beginning
             this.querySelector('i').classList.toggle('fa-eye-slash');
         });
         
-        // Show notification function (unchanged)
+        // Show notification function
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             const messageElement = document.getElementById('notification-message');
@@ -290,7 +370,7 @@ session_start(); // Start the session at the very beginning
             }, 3000);
         }
         
-        // Form validation (client-side, unchanged)
+        // Form validation (client-side)
         function validateForm() {
             let isValid = true;
             const username = document.getElementById('username');
@@ -323,24 +403,19 @@ session_start(); // Start the session at the very beginning
         
         // Form submission handler
         document.getElementById('loginForm').addEventListener('submit', function(e) {
-            // Only prevent default if client-side validation fails
             if (!validateForm()) {
                 e.preventDefault(); // Stop form submission
                 showNotification('Please fill in all required fields', 'error');
                 return;
             }
             
-            // If client-side validation passes, the form will submit normally to login_process.php
-            // The PHP will then handle authentication and redirection.
-            
-            // Optionally, you can show a loading state on the button here,
-            // but the browser will handle the redirect once PHP is done.
+            // Client-side visual feedback for submission
             const btn = document.querySelector('.btn-login');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AUTHENTICATING...';
             btn.disabled = true;
         });
         
-        // Clear error when user starts typing (unchanged)
+        // Clear error when user starts typing
         document.getElementById('username').addEventListener('input', function() {
             this.classList.remove('input-error');
             document.getElementById('username-error').style.display = 'none';

@@ -30,6 +30,8 @@ function sanitize_input($data) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = sanitize_input($_POST['username']);
     $password = sanitize_input($_POST['password']);
+  
+
 
     // Input validation (server-side)
     if (empty($username) || empty($password)) {
@@ -39,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Prepare a SQL statement to prevent SQL injection
-    // Select id, username, and plain password from the database
-    $stmt = $conn->prepare("SELECT id, username, password FROM agents WHERE username = ?");
+    // Select id, name, and password from the database
+    $stmt = $conn->prepare("SELECT id, name, password FROM agent WHERE name = ?");
 
     if (!$stmt) {
         error_log("Prepare failed: (" . $conn->errno . ") " . $conn->error);
@@ -56,14 +58,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         // DIRECT PLAIN TEXT PASSWORD COMPARISON (LESS SECURE)
+        // You should really use password_verify() here after hashing passwords with password_hash()
         if ($password === $row['password']) { // Compare the submitted password directly with the stored plain text password
             // Password is correct, set session variables
             $_SESSION['agent_id'] = $row['id'];
-            $_SESSION['agent_username'] = $row['username']; // Use username as name since 'name' column is missing
+            $_SESSION['userName'] = $row['name']; 
             $_SESSION['logged_in'] = true;
+            $_SESSION["role"] ="agent";
 
             // Redirect to a dashboard or success page
-            header("Location: Admin/ShowAgent.php"); // Create a dashboard.php file
+            header("Location: Admin/index.php"); // Create a dashboard.php file or point to your actual admin page
             exit();
         } else {
             // Invalid password
